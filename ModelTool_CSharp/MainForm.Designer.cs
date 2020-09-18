@@ -68,6 +68,7 @@
             this.dataTableCheckList.Name = "dataTableCheckList";
             this.dataTableCheckList.Size = new System.Drawing.Size(235, 681);
             this.dataTableCheckList.TabIndex = 0;
+            this.dataTableCheckList.SelectedIndexChanged += new System.EventHandler(this.dataTableCheckList_SelectedIndexChanged);
             // 
             // GeneratedText
             // 
@@ -79,6 +80,7 @@
             this.GeneratedText.Multiline = true;
             this.GeneratedText.Name = "GeneratedText";
             this.GeneratedText.ReadOnly = true;
+            this.GeneratedText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.GeneratedText.Size = new System.Drawing.Size(668, 414);
             this.GeneratedText.TabIndex = 1;
             // 
@@ -140,6 +142,7 @@
             this.startGenerate_button.TabIndex = 25;
             this.startGenerate_button.Text = "开始生成";
             this.startGenerate_button.UseVisualStyleBackColor = true;
+            this.startGenerate_button.Click += new System.EventHandler(this.startGenerate_button_Click);
             // 
             // editLocation_button
             // 
@@ -149,6 +152,7 @@
             this.editLocation_button.TabIndex = 24;
             this.editLocation_button.Text = "修改位置";
             this.editLocation_button.UseVisualStyleBackColor = true;
+            this.editLocation_button.Click += new System.EventHandler(this.editLocation_button_Click);
             // 
             // saveLocation_box
             // 
@@ -162,12 +166,15 @@
             // useSummary_checkBox
             // 
             this.useSummary_checkBox.AutoSize = true;
+            this.useSummary_checkBox.Checked = true;
+            this.useSummary_checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.useSummary_checkBox.Location = new System.Drawing.Point(568, 145);
             this.useSummary_checkBox.Name = "useSummary_checkBox";
             this.useSummary_checkBox.Size = new System.Drawing.Size(72, 16);
             this.useSummary_checkBox.TabIndex = 21;
             this.useSummary_checkBox.Text = "字段注释";
             this.useSummary_checkBox.UseVisualStyleBackColor = true;
+            this.useSummary_checkBox.CheckedChanged += new System.EventHandler(this.useSummary_checkBox_CheckedChanged);
             // 
             // accessModifier_comboBox
             // 
@@ -181,6 +188,7 @@
             this.accessModifier_comboBox.Size = new System.Drawing.Size(213, 20);
             this.accessModifier_comboBox.TabIndex = 19;
             this.accessModifier_comboBox.Text = "public";
+            this.accessModifier_comboBox.Validating += new System.ComponentModel.CancelEventHandler(this.accessModifier_comboBox_Validating);
             // 
             // label8
             // 
@@ -198,6 +206,7 @@
             this.namespace_box.Size = new System.Drawing.Size(213, 21);
             this.namespace_box.TabIndex = 17;
             this.namespace_box.Text = "Model";
+            this.namespace_box.Validating += new System.ComponentModel.CancelEventHandler(this.namespace_box_Validating);
             // 
             // label7
             // 
@@ -224,6 +233,7 @@
             0,
             0,
             0});
+            this.space_numBox.Validating += new System.ComponentModel.CancelEventHandler(this.space_numBox_Validating);
             // 
             // label6
             // 
@@ -242,6 +252,7 @@
             this.using_box.Size = new System.Drawing.Size(238, 158);
             this.using_box.TabIndex = 13;
             this.using_box.Text = "using System;";
+            this.using_box.Validating += new System.ComponentModel.CancelEventHandler(this.using_box_Validating);
             // 
             // label5
             // 
@@ -260,6 +271,7 @@
             this.tableClearSelect_button.TabIndex = 11;
             this.tableClearSelect_button.Text = "清除选择";
             this.tableClearSelect_button.UseVisualStyleBackColor = true;
+            this.tableClearSelect_button.Click += new System.EventHandler(this.tableClearSelect_button_Click);
             // 
             // tableReverseSelect_button
             // 
@@ -269,6 +281,7 @@
             this.tableReverseSelect_button.TabIndex = 10;
             this.tableReverseSelect_button.Text = "反选表单";
             this.tableReverseSelect_button.UseVisualStyleBackColor = true;
+            this.tableReverseSelect_button.Click += new System.EventHandler(this.tableReverseSelect_button_Click);
             // 
             // tableSelectAll_button
             // 
@@ -278,6 +291,7 @@
             this.tableSelectAll_button.TabIndex = 9;
             this.tableSelectAll_button.Text = "表单全选";
             this.tableSelectAll_button.UseVisualStyleBackColor = true;
+            this.tableSelectAll_button.Click += new System.EventHandler(this.tableSelectAll_button_Click);
             // 
             // database_comboBox
             // 
@@ -286,6 +300,7 @@
             this.database_comboBox.Name = "database_comboBox";
             this.database_comboBox.Size = new System.Drawing.Size(157, 20);
             this.database_comboBox.TabIndex = 8;
+            this.database_comboBox.SelectedIndexChanged += new System.EventHandler(this.database_comboBox_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -357,6 +372,7 @@
             this.Controls.Add(this.dataTableCheckList);
             this.Name = "MainForm";
             this.Text = "实体类生成工具";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.SettingPanel.ResumeLayout(false);
             this.SettingPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.space_numBox)).EndInit();

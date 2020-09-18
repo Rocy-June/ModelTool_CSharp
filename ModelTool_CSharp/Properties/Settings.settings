@@ -1,7 +1,30 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ModelTool_CSharp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IP" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Account" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Using" Type="System.String" Scope="User">
+      <Value Profile="(Default)">using System;</Value>
+    </Setting>
+    <Setting Name="Namespace" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Model</Value>
+    </Setting>
+    <Setting Name="AccessModifier" Type="System.String" Scope="User">
+      <Value Profile="(Default)">public</Value>
+    </Setting>
+    <Setting Name="TabSpace" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="UseSummary" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SaveLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>
