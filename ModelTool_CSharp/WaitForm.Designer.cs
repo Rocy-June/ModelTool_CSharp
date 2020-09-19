@@ -1,6 +1,6 @@
 ﻿namespace ModelTool_CSharp
 {
-    partial class GeneratingForm
+    partial class WaitForm
     {
         /// <summary>
         /// Required designer variable.
@@ -53,7 +53,7 @@
             this.label_text.TabIndex = 1;
             this.label_text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // Generating
+            // WaitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -62,8 +62,11 @@
             this.Controls.Add(this.process_bar);
             this.Controls.Add(this.label_text);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Generating";
+            this.Name = "WaitForm";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "正在生成...";
+            this.Load += new System.EventHandler(this.WaitForm_Load);
             this.ResumeLayout(false);
 
         }

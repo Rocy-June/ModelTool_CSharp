@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool_CSharp
+namespace ModelTool_CSharp.Model
 {
     class ColumnInfo
     {

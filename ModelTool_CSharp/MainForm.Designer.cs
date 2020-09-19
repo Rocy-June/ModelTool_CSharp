@@ -371,6 +371,7 @@
             this.Controls.Add(this.GeneratedText);
             this.Controls.Add(this.dataTableCheckList);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "实体类生成工具";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.SettingPanel.ResumeLayout(false);

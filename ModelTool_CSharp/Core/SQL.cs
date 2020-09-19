@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ModelTool_CSharp.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool_CSharp
+namespace ModelTool_CSharp.Core
 {
     static class SQL
     {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ModelTool_CSharp.Core;
+using ModelTool_CSharp.Helper;
+using ModelTool_CSharp.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +18,8 @@ namespace ModelTool_CSharp
 {
     public partial class MainForm : Form
     {
+        private readonly string dataFilePath = $"{Environment.CurrentDirectory}\\setting.ini";
+        private readonly string usingSplitter = "{{line}}";
 
         public MainForm()
         {
@@ -24,14 +29,15 @@ namespace ModelTool_CSharp
 
         private void Init()
         {
-            ip_box.Text = Properties.Settings.Default.IP;
-            account_box.Text = Properties.Settings.Default.Account;
-            using_box.Text = Properties.Settings.Default.Using;
-            namespace_box.Text = Properties.Settings.Default.Namespace;
-            accessModifier_comboBox.Text = Properties.Settings.Default.AccessModifier;
-            space_numBox.Value = Properties.Settings.Default.TabSpace;
-            useSummary_checkBox.Checked = Properties.Settings.Default.UseSummary;
-            saveLocation_box.Text = Properties.Settings.Default.SaveLocation;
+            ip_box.Text = IniHelper.Read("Setting", "IP", ip_box.Text, dataFilePath);
+            account_box.Text = IniHelper.Read("Setting", "Account", account_box.Text, dataFilePath);
+            using_box.Text = IniHelper.Read("Setting", "Using", using_box.Text, dataFilePath).Replace("{{line}}", @"
+");
+            namespace_box.Text = IniHelper.Read("Setting", "Namespace", namespace_box.Text, dataFilePath);
+            accessModifier_comboBox.Text = IniHelper.Read("Setting", "AccessModifier", accessModifier_comboBox.Text, dataFilePath);
+            space_numBox.Value = IniHelper.Read("Setting", "TabSpace", space_numBox.Value.ToString(), dataFilePath).ToInt();
+            useSummary_checkBox.Checked = IniHelper.Read("Setting", "UseSummary", useSummary_checkBox.Checked.ToString(), dataFilePath).ToBool();
+            saveLocation_box.Text = IniHelper.Read("Setting", "SaveLocation", saveLocation_box.Text, dataFilePath);
         }
 
         private string GetConnectionString()
@@ -41,8 +47,8 @@ namespace ModelTool_CSharp
 
         private void GetDatabases()
         {
-            Properties.Settings.Default.IP = ip_box.Text;
-            Properties.Settings.Default.Account = account_box.Text;
+            IniHelper.Write("Setting", "IP", ip_box.Text, dataFilePath);
+            IniHelper.Write("Setting", "Account", account_box.Text, dataFilePath);
 
             try
             {
@@ -150,48 +156,94 @@ namespace ModelTool_CSharp
                 MessageBox.Show("请选择生成位置", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (!Directory.Exists(saveLocation_box.Text))
+            {
+                Directory.CreateDirectory(saveLocation_box.Text);
+            }
 
-            var loadingForm = new GeneratingForm(dataTableCheckList.CheckedItems.Count);
+            var loadingForm = new WaitForm(dataTableCheckList.CheckedItems.Count);
+            var connStr = GetConnectionString();
+            var database = database_comboBox.Text;
+            var modelSetting = new ModelSetting()
+            {
+                Using = using_box.Text,
+                Namespace = namespace_box.Text,
+                TabSpace = space_numBox.Value.ToInt(),
+                AccessModifier = accessModifier_comboBox.Text,
+                UseSummary = useSummary_checkBox.Checked
+            };
+            var hasGenerateError = false;
 
             var thread = new Thread(() =>
             {
                 for (var i = 0; i < dataTableCheckList.CheckedItems.Count; ++i)
                 {
-                    var table_name = dataTableCheckList.CheckedItems[i].ToString();
-
-                    var generated_text = ModelGenerator.Generate(new ModelSetting()
+                    try
                     {
-                        Using = using_box.Text,
-                        Namespace = namespace_box.Text,
-                        TabSpace = space_numBox.Value.ToInt(),
-                        AccessModifier = accessModifier_comboBox.Text,
-                        ModelName = dataTableCheckList.Text,
-                        UseSummary = useSummary_checkBox.Checked,
-                        Columns = SQL.GetColumns(GetConnectionString(), database_comboBox.Text, table_name)
-                    });
+                        var model_name = dataTableCheckList.CheckedItems[i].ToString();
 
-                    loadingForm.RefreshState(i + 1,$"正在生成: {table_name}.cs");
+                        loadingForm.RefreshState(i + 1, $"正在生成: {model_name}.cs");
+
+                        modelSetting.ModelName = model_name;
+                        modelSetting.Columns = SQL.GetColumns(connStr, database, model_name);
+
+                        var generated_text = ModelGenerator.Generate(modelSetting);
+
+                        using (var sw = new StreamWriter($"{saveLocation_box.Text}\\{model_name}.cs"))
+                        {
+                            sw.Write(generated_text);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        hasGenerateError = true;
+
+                        var logFilePath = $"{saveLocation_box.Text}\\error.log";
+
+                        if (!File.Exists(logFilePath))
+                        {
+                            var fs = File.Create(logFilePath);
+                            fs.Dispose();
+                        }
+                        using (var sw = new StreamWriter(logFilePath, true))
+                        {
+                            sw.WriteLine($@"=== Exception log {DateTime.Now:yyyy-MM-dd hh:mm:ss} BEGINS ===
+
+Exception message:
+{ex.Message}
+
+Exception stack trace:
+{ex.StackTrace}
+
+=== Exception log ENDS ===");
+                        }
+                    }
                 }
+
+                loadingForm.WorkComplete();
             })
             {
                 IsBackground = true
             };
-            thread.Start();
 
-            loadingForm.ShowDialog();
+            loadingForm.StartWork(thread);
 
+            if (hasGenerateError)
+            {
+                MessageBox.Show(@"生成已完成，但出现错误，错误报告已生成在与实体类相同的目录下", "出错", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            MessageBox.Show(@"生成已完成", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void SaveData()
         {
-            Properties.Settings.Default.Using = using_box.Text;
-            Properties.Settings.Default.Namespace = namespace_box.Text;
-            Properties.Settings.Default.AccessModifier = accessModifier_comboBox.Text;
-            Properties.Settings.Default.TabSpace = space_numBox.Value.ToInt();
-            Properties.Settings.Default.UseSummary = useSummary_checkBox.Checked;
-            Properties.Settings.Default.SaveLocation = saveLocation_box.Text;
-
-            Properties.Settings.Default.Save();
+            IniHelper.Write("Setting", "Using", using_box.Text.Replace(@"
+", usingSplitter), dataFilePath);
+            IniHelper.Write("Setting", "Namespace", namespace_box.Text, dataFilePath);
+            IniHelper.Write("Setting", "AccessModifier", accessModifier_comboBox.Text, dataFilePath);
+            IniHelper.Write("Setting", "TabSpace", space_numBox.Value.ToString(), dataFilePath);
+            IniHelper.Write("Setting", "UseSummary", useSummary_checkBox.Checked.ToString(), dataFilePath);
+            IniHelper.Write("Setting", "SaveLocation", saveLocation_box.Text, dataFilePath);
         }
 
 
@@ -285,7 +337,7 @@ namespace ModelTool_CSharp
 
         private void startGenerate_button_Click(object sender, EventArgs e)
         {
-
+            GenerateFile();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
