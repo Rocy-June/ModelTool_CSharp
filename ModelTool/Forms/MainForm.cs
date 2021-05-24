@@ -1,6 +1,9 @@
 ﻿using ModelTool.Core;
+using ModelTool.Core.Generator.Model;
 using ModelTool.Helper;
 using ModelTool.Model;
+using ModelTool_CSharp.Core.Generator.Sql;
+using ModelTool_CSharp.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +12,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +25,7 @@ namespace ModelTool.Forms
     public partial class MainForm : Form
     {
 
-        public string ConnectionString { get; set; }
+        public SqlGeneratorSetting SqlGeneratorSetting { get; set; }
 
         public MainForm()
         {
@@ -76,7 +80,7 @@ namespace ModelTool.Forms
 
         private bool GetDatabases()
         {
-            if (string.IsNullOrWhiteSpace(ConnectionString))
+            if (SqlGeneratorSetting == null)
             {
                 MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -84,7 +88,12 @@ namespace ModelTool.Forms
 
             try
             {
-                var list = SQL.GetDatabases(ConnectionString);
+                MSSQLServerGenerator msssg = new MSSQLServerGenerator(new ModelTool_CSharp.Model.SqlGeneratorSetting 
+                {
+                    SqlType = ModelTool_CSharp.Model.SqlType.MSSQLSERVER,
+                    ServerAddress = IPAddress.Parse()
+                });
+                var list = Core.Utility.GetDatabases(ConnectionString);
 
                 ComboBox_Database.Items.Clear();
                 ComboBox_Database.Items.AddRange(list.ToArray());
@@ -101,7 +110,7 @@ namespace ModelTool.Forms
 
         private bool GetTables()
         {
-            if (string.IsNullOrWhiteSpace(ConnectionString))
+            if (SqlGeneratorSetting == null)
             {
                 MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -109,7 +118,7 @@ namespace ModelTool.Forms
 
             try
             {
-                var list = SQL.GetTables(ConnectionString, ComboBox_Database.Text);
+                var list = Core.Utility.GetTables(ConnectionString, ComboBox_Database.Text);
 
                 CheckList_DataTable.Items.Clear();
                 CheckList_DataTable.Items.AddRange(list.ToArray());
@@ -126,7 +135,7 @@ namespace ModelTool.Forms
 
         private void RefreshModelText()
         {
-            if (string.IsNullOrWhiteSpace(ConnectionString))
+            if (SqlGeneratorSetting == null)
             {
                 MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -134,7 +143,7 @@ namespace ModelTool.Forms
 
             try
             {
-                var list = SQL.GetColumns(ConnectionString, ComboBox_Database.Text, CheckList_DataTable.Text);
+                var list = Core.Utility.GetColumns(ConnectionString, ComboBox_Database.Text, CheckList_DataTable.Text);
 
                 TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
                 {
@@ -184,7 +193,7 @@ namespace ModelTool.Forms
 
         private void GenerateFile()
         {
-            if (string.IsNullOrWhiteSpace(ConnectionString))
+            if (SqlGeneratorSetting == null)
             {
                 MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -232,7 +241,7 @@ namespace ModelTool.Forms
                         loadingForm.RefreshState(i + 1, $"正在生成: {model_name}.cs");
 
                         modelSetting.ModelName = model_name;
-                        modelSetting.Columns = SQL.GetColumns(ConnectionString, database, model_name);
+                        modelSetting.Columns = Core.Utility.GetColumns(ConnectionString, database, model_name);
 
                         var generated_text = ModelGenerator.Generate(modelSetting);
 

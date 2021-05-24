@@ -93,7 +93,7 @@ namespace ModelTool.Forms
             // 
             // Button_Connect
             // 
-            this.Button_Connect.Location = new System.Drawing.Point(187, 140);
+            this.Button_Connect.Location = new System.Drawing.Point(180, 140);
             this.Button_Connect.Name = "Button_Connect";
             this.Button_Connect.Size = new System.Drawing.Size(85, 32);
             this.Button_Connect.TabIndex = 6;

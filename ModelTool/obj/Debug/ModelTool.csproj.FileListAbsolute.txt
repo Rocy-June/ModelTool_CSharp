@@ -1,0 +1,12 @@
+D:\Work Projects\ModelTool\ModelTool\bin\Debug\ModelTool_CSharp.exe.config
+D:\Work Projects\ModelTool\ModelTool\bin\Debug\ModelTool_CSharp.exe
+D:\Work Projects\ModelTool\ModelTool\bin\Debug\ModelTool_CSharp.pdb
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.csprojAssemblyReference.cache
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.Forms.ConnectForm.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.Forms.WaitForm.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.Forms.MainForm.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool_CSharp.Properties.Resources.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.csproj.GenerateResource.cache
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.csproj.CoreCompileInputs.cache
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool_CSharp.exe
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool_CSharp.pdb

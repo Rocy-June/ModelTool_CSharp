@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool.Core
+namespace ModelTool.Core.Generator.Model
 {
     static class ModelGenerator
     {
@@ -53,24 +53,25 @@ namespace {setting.Namespace}
 
         private static string GetType(string type, bool nullable)
         {
+            var nullableStr = nullable ? "?" : "";
             switch (type)
             {
                 case "bigint":
-                    return $"long{(nullable ? "?" : "")}";
+                    return $"long{nullableStr}";
                 case "smallint":
-                    return $"short{(nullable ? "?" : "")}";
+                    return $"short{nullableStr}";
                 case "tinyint":
-                    return $"byte{(nullable ? "?" : "")}";
+                    return $"byte{nullableStr}";
                 case "bit":
-                    return $"bool{(nullable ? "?" : "")}";
+                    return $"bool{nullableStr}";
                 case "numeric":
                 case "money":
                 case "smallmoney":
-                    return $"decimal{(nullable ? "?" : "")}";
+                    return $"decimal{nullableStr}";
                 case "float":
-                    return $"double{(nullable ? "?" : "")}";
+                    return $"double{nullableStr}";
                 case "real":
-                    return $"float{(nullable ? "?" : "")}";
+                    return $"float{nullableStr}";
                 case "date":
                 case "time":
                 case "datetime":
@@ -78,7 +79,7 @@ namespace {setting.Namespace}
                 case "datetimeoffset":
                 case "smalldatetime":
                 case "timestamp":
-                    return $"DateTime{(nullable ? "?" : "")}";
+                    return $"DateTime{nullableStr}";
                 case "char":
                 case "nchar":
                 case "varchar":
@@ -91,10 +92,10 @@ namespace {setting.Namespace}
                 case "image":
                     return "byte[]";
                 case "uniqueidentifier":
-                    return $"Guid{(nullable ? "?" : "")}";
+                    return $"Guid{nullableStr}";
                 case "int":
                 case "decimal":
-                    return $"{type}{(nullable ? "?" : "")}";
+                    return $"{type}{nullableStr}";
                 case "sql_variant":
                 case "hierarchyid":
                 case "geometry":

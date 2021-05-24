@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModelTool_CSharp.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -69,7 +70,13 @@ namespace ModelTool.Forms
 
             Settings.Default.Save();
 
-            mf.ConnectionString = $"Server={TextBox_IP.Text};Uid={TextBox_Account.Text};Pwd={TextBox_Password.Text}";
+            mf.SqlGeneratorSetting = new SqlGeneratorSetting
+            {
+                SqlType = SqlType.MSSQLSERVER,
+                ServerAddress = IPAddress.Parse(TextBox_IP.Text),
+                UserAccount = TextBox_Account.Text,
+                UserPassword = TextBox_Password.Text
+            };
 
             if (mf.TestDatabaseAndConnect())
             {

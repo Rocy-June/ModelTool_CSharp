@@ -1,4 +1,5 @@
 ﻿using ModelTool.Model;
+using ModelTool_CSharp.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,21 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool.Core
+namespace ModelTool_CSharp.Core.Generator.Sql
 {
-    static class SQL
+    class MSSQLServerGenerator : SqlGenerator<SqlConnection>
     {
+        MSSQLServerGenerator(SqlGeneratorSetting setting) : base(setting) { }
 
-        private static SqlConnection GetConnection(string conStr)
+        public override SqlConnection GetConnection()
         {
-            return new SqlConnection(conStr);
+            return new SqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
         }
 
-        public static List<string> GetDatabases(string constr)
+        public override List<string> GetDatabases()
         {
-            using (var con = GetConnection(constr))
+            try
             {
-                con.Open();
+                Connection.Open();
 
                 var getDatabaseStr = "SELECT name FROM Master..SysDatabases ORDER BY name";
 
@@ -28,7 +30,7 @@ namespace ModelTool.Core
                 Console.WriteLine(getDatabaseStr);
 #endif
 
-                using (var cmd = new SqlCommand(getDatabaseStr, con))
+                using (var cmd = new SqlCommand(getDatabaseStr, Connection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -41,13 +43,17 @@ namespace ModelTool.Core
                     return databaseList;
                 }
             }
+            finally
+            {
+                Connection.Close();
+            }
         }
 
-        public static List<string> GetTables(string constr, string database)
+        public override List<string> GetTables(string database)
         {
-            using (var con = GetConnection(constr))
+            try
             {
-                con.Open();
+                Connection.Open();
 
                 var getTableStr = $"SELECT name FROM {database}..SysObjects WHERE XType='U' ORDER BY name";
 
@@ -55,7 +61,7 @@ namespace ModelTool.Core
                 Console.WriteLine(getTableStr);
 #endif
 
-                using (var cmd = new SqlCommand(getTableStr, con))
+                using (var cmd = new SqlCommand(getTableStr, Connection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -68,13 +74,16 @@ namespace ModelTool.Core
                     return tableList;
                 }
             }
-        }
-
-        public static List<ColumnInfo> GetColumns(string constr, string database, string table)
-        {
-            using (var con = GetConnection(constr))
+            finally
             {
-                con.Open();
+                Connection.Close();
+            }
+        }
+        public override List<ColumnInfo> GetColumns(string database, string table)
+        {
+            try
+            {
+                Connection.Open();
 
                 var getColumnStr = $@"SELECT sc.name,sty.name,sc.is_nullable,ISNULL(sep.value,'') FROM {database}.sys.columns sc 
 LEFT JOIN {database}.sys.tables st ON sc.object_id = st.object_id
@@ -86,7 +95,7 @@ WHERE st.name = '{table}'";
                 Console.WriteLine(getColumnStr);
 #endif
 
-                using (var cmd = new SqlCommand(getColumnStr, con))
+                using (var cmd = new SqlCommand(getColumnStr, Connection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -104,6 +113,11 @@ WHERE st.name = '{table}'";
 
                     return columnList;
                 }
+
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
     }

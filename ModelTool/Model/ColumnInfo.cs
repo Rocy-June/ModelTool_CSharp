@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelTool.Model
 {
-    class ColumnInfo
+    public class ColumnInfo
     {
         public string Summary { get; set; }
 
