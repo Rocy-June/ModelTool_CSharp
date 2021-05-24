@@ -1,4 +1,4 @@
-﻿using ModelTool_CSharp.Model;
+﻿using ModelTool.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool_CSharp.Core
+namespace ModelTool.Core
 {
     static class SQL
     {

@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ModelTool_CSharp.Forms
+namespace ModelTool.Forms
 {
     public partial class WaitForm : Form
     {

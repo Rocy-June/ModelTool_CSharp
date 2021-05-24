@@ -1,6 +1,6 @@
-﻿using ModelTool_CSharp.Core;
-using ModelTool_CSharp.Helper;
-using ModelTool_CSharp.Model;
+﻿using ModelTool.Core;
+using ModelTool.Helper;
+using ModelTool.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Settings = ModelTool_CSharp.Properties.Settings;
+using Settings = ModelTool.Properties.Settings;
 
-namespace ModelTool_CSharp.Forms
+namespace ModelTool.Forms
 {
     public partial class MainForm : Form
     {

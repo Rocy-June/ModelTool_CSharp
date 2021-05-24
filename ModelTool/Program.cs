@@ -1,11 +1,11 @@
-﻿using ModelTool_CSharp.Forms;
+﻿using ModelTool.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ModelTool_CSharp
+namespace ModelTool
 {
     static class Program
     {

@@ -1,4 +1,4 @@
-﻿namespace ModelTool_CSharp.Forms
+﻿namespace ModelTool.Forms
 {
     partial class WaitForm
     {

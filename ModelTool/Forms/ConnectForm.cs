@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Settings = ModelTool_CSharp.Properties.Settings;
+using Settings = ModelTool.Properties.Settings;
 
-namespace ModelTool_CSharp.Forms
+namespace ModelTool.Forms
 {
     public partial class ConnectForm : Form
     {
