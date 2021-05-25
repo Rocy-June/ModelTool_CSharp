@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ModelTool_CSharp.Core.Generator.Sql
 {
-    class MSSQLServerGenerator : SqlGenerator<SqlConnection>
+    public class MSSQLServerGenerator : SqlGenerator<SqlConnection>
     {
-        MSSQLServerGenerator(SqlGeneratorSetting setting) : base(setting) { }
+        public MSSQLServerGenerator(SqlGeneratorSetting setting) : base(setting) { }
 
         public override SqlConnection GetConnection()
         {
@@ -85,11 +85,12 @@ namespace ModelTool_CSharp.Core.Generator.Sql
             {
                 Connection.Open();
 
-                var getColumnStr = $@"SELECT sc.name,sty.name,sc.is_nullable,ISNULL(sep.value,'') FROM {database}.sys.columns sc 
-LEFT JOIN {database}.sys.tables st ON sc.object_id = st.object_id
-LEFT JOIN {database}.sys.types sty ON sc.system_type_id = sty.system_type_id
-LEFT JOIN {database}.sys.extended_properties sep ON sep.major_id = st.object_id AND sep.minor_id = sc.column_id
-WHERE st.name = '{table}'";
+                var getColumnStr = $@"SELECT sc.name, st.name, sc.isnullable, sep.value
+FROM {database}.sys.syscolumns sc
+LEFT JOIN {database}.sys.systypes st ON sc.xusertype = st.xusertype
+INNER JOIN {database}.sys.sysobjects so ON sc.id = so.id AND so.xtype = 'U' AND so.name <> 'dtproperties'
+LEFT JOIN {database}.sys.extended_properties sep ON sc.id = sep.major_id AND sc.colid = sep.minor_id
+WHERE so.name = '{table}'";
 
 #if DEBUG
                 Console.WriteLine(getColumnStr);
@@ -106,7 +107,7 @@ WHERE st.name = '{table}'";
                         {
                             Summary = reader.GetString(3),
                             Type = reader.GetString(1),
-                            IsNullable = reader.GetBoolean(2),
+                            IsNullable = reader.GetInt32(2) == 1,
                             Name = reader.GetString(0)
                         });
                     }
@@ -120,5 +121,46 @@ WHERE st.name = '{table}'";
                 Connection.Close();
             }
         }
+
+        /* 
+         
+Completed Table Query SQL 
+        
+SELECT
+    [TableName]		=	CASE WHEN sc.colorder = 1 THEN so.name ELSE '' END,
+    [TableExplain]	=	CASE WHEN sc.colorder = 1 THEN ISNULL(sep_te.value, '') ELSE '' END,
+    [FieldNumber]	=	sc.colorder,
+    [FieldName]		=	sc.name,
+    [IsIdentity]	=	CASE WHEN COLUMNPROPERTY(sc.id,sc.name, 'IsIdentity') = 1 THEN '√' ELSE '' END,
+    [PrimaryKey]	=	CASE WHEN EXISTS (
+							SELECT 1 FROM sysobjects
+							WHERE xtype = 'PK'
+								AND parent_obj = sc.id 
+								AND name IN (
+									SELECT name FROM sysindexes
+									WHERE indid IN (
+										SELECT indid FROM sysindexkeys
+										WHERE id = sc.id 
+										AND colid = sc.colid
+									)
+								)
+						) THEN '√' ELSE '' END,
+    [Type]			=	st.name,
+    [OccupySize]	=	sc.length,
+    [Length]		=	COLUMNPROPERTY(sc.id, sc.name, 'PRECISION'),
+    [Scale]			=	ISNULL(COLUMNPROPERTY(sc.id, sc.name, 'Scale'),0),
+    [AllowNull]		=	CASE WHEN sc.isnullable = 1 THEN '√' ELSE '' END,
+    [Default]		=	ISNULL(scm.text, ''),
+    [FieldExplain]	=	ISNULL(sep_fe.value, '')
+FROM syscolumns sc
+LEFT JOIN systypes st ON sc.xusertype = st.xusertype
+INNER JOIN sysobjects so ON sc.id = so.id AND so.xtype='U' AND so.name <> 'dtproperties'
+LEFT JOIN syscomments scm ON sc.cdefault = scm.id
+LEFT JOIN sys.extended_properties sep_fe ON sc.id = sep_fe.major_id AND sc.colid = sep_fe.minor_id
+LEFT JOIN sys.extended_properties sep_te ON so.id = sep_te.major_id AND sep_te.minor_id = 0
+WHERE so.name = 'TR_BD_DrugsData'
+ORDER BY sc.id, sc.colorder
+         
+         */
     }
 }

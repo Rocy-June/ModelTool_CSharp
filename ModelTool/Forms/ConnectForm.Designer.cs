@@ -36,76 +36,104 @@ namespace ModelTool.Forms
             this.TextBox_Password = new System.Windows.Forms.TextBox();
             this.Label_Password = new System.Windows.Forms.Label();
             this.Button_Connect = new System.Windows.Forms.Button();
+            this.Label_SqlType = new System.Windows.Forms.Label();
+            this.ComboBox_SqlType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // Label_IP
             // 
             this.Label_IP.AutoSize = true;
-            this.Label_IP.Location = new System.Drawing.Point(64, 38);
+            this.Label_IP.Location = new System.Drawing.Point(71, 55);
             this.Label_IP.Name = "Label_IP";
             this.Label_IP.Size = new System.Drawing.Size(38, 15);
-            this.Label_IP.TabIndex = 0;
+            this.Label_IP.TabIndex = 2;
             this.Label_IP.Text = "IP：";
             // 
             // TextBox_IP
             // 
-            this.TextBox_IP.Location = new System.Drawing.Point(108, 35);
+            this.TextBox_IP.Location = new System.Drawing.Point(115, 52);
             this.TextBox_IP.MaxLength = 15;
             this.TextBox_IP.Name = "TextBox_IP";
             this.TextBox_IP.Size = new System.Drawing.Size(247, 25);
-            this.TextBox_IP.TabIndex = 1;
+            this.TextBox_IP.TabIndex = 3;
             this.TextBox_IP.TextChanged += new System.EventHandler(this.TextBox_IP_TextChanged);
             // 
             // TextBox_Account
             // 
-            this.TextBox_Account.Location = new System.Drawing.Point(108, 66);
+            this.TextBox_Account.Location = new System.Drawing.Point(115, 83);
             this.TextBox_Account.Name = "TextBox_Account";
             this.TextBox_Account.Size = new System.Drawing.Size(247, 25);
-            this.TextBox_Account.TabIndex = 3;
+            this.TextBox_Account.TabIndex = 5;
             this.TextBox_Account.TextChanged += new System.EventHandler(this.TextBox_Account_TextChanged);
             // 
             // Label_Account
             // 
             this.Label_Account.AutoSize = true;
-            this.Label_Account.Location = new System.Drawing.Point(35, 69);
+            this.Label_Account.Location = new System.Drawing.Point(42, 86);
             this.Label_Account.Name = "Label_Account";
             this.Label_Account.Size = new System.Drawing.Size(67, 15);
-            this.Label_Account.TabIndex = 2;
+            this.Label_Account.TabIndex = 4;
             this.Label_Account.Text = "用户名：";
             // 
             // TextBox_Password
             // 
-            this.TextBox_Password.Location = new System.Drawing.Point(108, 97);
+            this.TextBox_Password.Location = new System.Drawing.Point(115, 114);
             this.TextBox_Password.Name = "TextBox_Password";
             this.TextBox_Password.PasswordChar = '*';
             this.TextBox_Password.Size = new System.Drawing.Size(247, 25);
-            this.TextBox_Password.TabIndex = 5;
+            this.TextBox_Password.TabIndex = 7;
             this.TextBox_Password.TextChanged += new System.EventHandler(this.TextBox_Password_TextChanged);
             // 
             // Label_Password
             // 
             this.Label_Password.AutoSize = true;
-            this.Label_Password.Location = new System.Drawing.Point(50, 100);
+            this.Label_Password.Location = new System.Drawing.Point(57, 117);
             this.Label_Password.Name = "Label_Password";
             this.Label_Password.Size = new System.Drawing.Size(52, 15);
-            this.Label_Password.TabIndex = 4;
+            this.Label_Password.TabIndex = 6;
             this.Label_Password.Text = "密码：";
             // 
             // Button_Connect
             // 
-            this.Button_Connect.Location = new System.Drawing.Point(180, 140);
+            this.Button_Connect.Location = new System.Drawing.Point(177, 157);
             this.Button_Connect.Name = "Button_Connect";
             this.Button_Connect.Size = new System.Drawing.Size(85, 32);
-            this.Button_Connect.TabIndex = 6;
+            this.Button_Connect.TabIndex = 8;
             this.Button_Connect.Text = "建立连接";
             this.Button_Connect.UseVisualStyleBackColor = true;
             this.Button_Connect.Click += new System.EventHandler(this.Button_Connect_Click);
             // 
+            // Label_SqlType
+            // 
+            this.Label_SqlType.AutoSize = true;
+            this.Label_SqlType.Location = new System.Drawing.Point(42, 27);
+            this.Label_SqlType.Name = "Label_SqlType";
+            this.Label_SqlType.Size = new System.Drawing.Size(55, 15);
+            this.Label_SqlType.TabIndex = 0;
+            this.Label_SqlType.Text = "label1";
+            // 
+            // ComboBox_SqlType
+            // 
+            this.ComboBox_SqlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBox_SqlType.Enabled = false;
+            this.ComboBox_SqlType.FormattingEnabled = true;
+            this.ComboBox_SqlType.Items.AddRange(new object[] {
+            "MSSQLServer",
+            "MySQL",
+            "Oracle"});
+            this.ComboBox_SqlType.Location = new System.Drawing.Point(115, 23);
+            this.ComboBox_SqlType.Name = "ComboBox_SqlType";
+            this.ComboBox_SqlType.Size = new System.Drawing.Size(247, 23);
+            this.ComboBox_SqlType.TabIndex = 1;
+            // 
             // ConnectForm
             // 
+            this.AcceptButton = this.Button_Connect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(422, 209);
+            this.Controls.Add(this.ComboBox_SqlType);
+            this.Controls.Add(this.Label_SqlType);
             this.Controls.Add(this.Button_Connect);
             this.Controls.Add(this.TextBox_Password);
             this.Controls.Add(this.Label_Password);
@@ -133,5 +161,7 @@ namespace ModelTool.Forms
         private System.Windows.Forms.TextBox TextBox_Password;
         private System.Windows.Forms.Label Label_Password;
         private System.Windows.Forms.Button Button_Connect;
+        private System.Windows.Forms.Label Label_SqlType;
+        private System.Windows.Forms.ComboBox ComboBox_SqlType;
     }
 }

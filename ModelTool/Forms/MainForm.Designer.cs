@@ -83,7 +83,7 @@
             this.TextBox_Generated.Multiline = true;
             this.TextBox_Generated.Name = "TextBox_Generated";
             this.TextBox_Generated.ReadOnly = true;
-            this.TextBox_Generated.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TextBox_Generated.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.TextBox_Generated.Size = new System.Drawing.Size(481, 825);
             this.TextBox_Generated.TabIndex = 1;
             this.TextBox_Generated.Text = "using System;\r\n\r\nnamespace Model\r\n{\r\n\r\n}";
@@ -113,14 +113,14 @@
             this.Panel_Settings.Location = new System.Drawing.Point(0, 0);
             this.Panel_Settings.Name = "Panel_Settings";
             this.Panel_Settings.Size = new System.Drawing.Size(371, 825);
-            this.Panel_Settings.TabIndex = 2;
+            this.Panel_Settings.TabIndex = 0;
             // 
             // Button_RefreshDatabaseList
             // 
             this.Button_RefreshDatabaseList.Location = new System.Drawing.Point(211, 48);
             this.Button_RefreshDatabaseList.Name = "Button_RefreshDatabaseList";
             this.Button_RefreshDatabaseList.Size = new System.Drawing.Size(130, 32);
-            this.Button_RefreshDatabaseList.TabIndex = 28;
+            this.Button_RefreshDatabaseList.TabIndex = 3;
             this.Button_RefreshDatabaseList.Text = "刷新库列表";
             this.Button_RefreshDatabaseList.UseVisualStyleBackColor = true;
             this.Button_RefreshDatabaseList.Click += new System.EventHandler(this.Button_RefreshDatabaseList_Click);
@@ -130,7 +130,7 @@
             this.Button_RefreshTableList.Location = new System.Drawing.Point(74, 48);
             this.Button_RefreshTableList.Name = "Button_RefreshTableList";
             this.Button_RefreshTableList.Size = new System.Drawing.Size(130, 32);
-            this.Button_RefreshTableList.TabIndex = 27;
+            this.Button_RefreshTableList.TabIndex = 2;
             this.Button_RefreshTableList.Text = "刷新表列表";
             this.Button_RefreshTableList.UseVisualStyleBackColor = true;
             this.Button_RefreshTableList.Click += new System.EventHandler(this.Button_RefreshTableList_Click);
@@ -141,7 +141,7 @@
             this.Button_StartGenerate.Location = new System.Drawing.Point(200, 744);
             this.Button_StartGenerate.Name = "Button_StartGenerate";
             this.Button_StartGenerate.Size = new System.Drawing.Size(136, 51);
-            this.Button_StartGenerate.TabIndex = 25;
+            this.Button_StartGenerate.TabIndex = 18;
             this.Button_StartGenerate.Text = "开始生成";
             this.Button_StartGenerate.UseVisualStyleBackColor = true;
             this.Button_StartGenerate.Click += new System.EventHandler(this.Button_StartGenerate_Click);
@@ -151,7 +151,7 @@
             this.Button_ClearTableSelect.Location = new System.Drawing.Point(74, 86);
             this.Button_ClearTableSelect.Name = "Button_ClearTableSelect";
             this.Button_ClearTableSelect.Size = new System.Drawing.Size(85, 32);
-            this.Button_ClearTableSelect.TabIndex = 11;
+            this.Button_ClearTableSelect.TabIndex = 4;
             this.Button_ClearTableSelect.Text = "重新选择";
             this.Button_ClearTableSelect.UseVisualStyleBackColor = true;
             this.Button_ClearTableSelect.Click += new System.EventHandler(this.Button_ClearTableSelect_Click);
@@ -161,7 +161,7 @@
             this.Button_ReverseTableSelect.Location = new System.Drawing.Point(256, 86);
             this.Button_ReverseTableSelect.Name = "Button_ReverseTableSelect";
             this.Button_ReverseTableSelect.Size = new System.Drawing.Size(85, 32);
-            this.Button_ReverseTableSelect.TabIndex = 10;
+            this.Button_ReverseTableSelect.TabIndex = 6;
             this.Button_ReverseTableSelect.Text = "列表反选";
             this.Button_ReverseTableSelect.UseVisualStyleBackColor = true;
             this.Button_ReverseTableSelect.Click += new System.EventHandler(this.Button_ReverseTableSelect_Click);
@@ -172,7 +172,7 @@
             this.Button_EditLocation.Location = new System.Drawing.Point(42, 744);
             this.Button_EditLocation.Name = "Button_EditLocation";
             this.Button_EditLocation.Size = new System.Drawing.Size(136, 51);
-            this.Button_EditLocation.TabIndex = 24;
+            this.Button_EditLocation.TabIndex = 17;
             this.Button_EditLocation.Text = "修改位置";
             this.Button_EditLocation.UseVisualStyleBackColor = true;
             this.Button_EditLocation.Click += new System.EventHandler(this.Button_EditLocation_Click);
@@ -182,7 +182,7 @@
             this.Button_SelectAllTables.Location = new System.Drawing.Point(165, 86);
             this.Button_SelectAllTables.Name = "Button_SelectAllTables";
             this.Button_SelectAllTables.Size = new System.Drawing.Size(85, 32);
-            this.Button_SelectAllTables.TabIndex = 9;
+            this.Button_SelectAllTables.TabIndex = 5;
             this.Button_SelectAllTables.Text = "列表全选";
             this.Button_SelectAllTables.UseVisualStyleBackColor = true;
             this.Button_SelectAllTables.Click += new System.EventHandler(this.Button_SelectAllTables_Click);
@@ -194,7 +194,7 @@
             this.TextBox_SaveLocation.Name = "TextBox_SaveLocation";
             this.TextBox_SaveLocation.ReadOnly = true;
             this.TextBox_SaveLocation.Size = new System.Drawing.Size(294, 27);
-            this.TextBox_SaveLocation.TabIndex = 23;
+            this.TextBox_SaveLocation.TabIndex = 16;
             // 
             // CheckBox_UseSummary
             // 
@@ -204,7 +204,7 @@
             this.CheckBox_UseSummary.Location = new System.Drawing.Point(250, 510);
             this.CheckBox_UseSummary.Name = "CheckBox_UseSummary";
             this.CheckBox_UseSummary.Size = new System.Drawing.Size(91, 24);
-            this.CheckBox_UseSummary.TabIndex = 21;
+            this.CheckBox_UseSummary.TabIndex = 15;
             this.CheckBox_UseSummary.Text = "字段注释";
             this.CheckBox_UseSummary.UseVisualStyleBackColor = true;
             this.CheckBox_UseSummary.CheckedChanged += new System.EventHandler(this.CheckBox_UseSummary_CheckedChanged);
@@ -219,7 +219,7 @@
             this.ComboBox_AccessModifier.Location = new System.Drawing.Point(109, 454);
             this.ComboBox_AccessModifier.Name = "ComboBox_AccessModifier";
             this.ComboBox_AccessModifier.Size = new System.Drawing.Size(232, 28);
-            this.ComboBox_AccessModifier.TabIndex = 19;
+            this.ComboBox_AccessModifier.TabIndex = 12;
             this.ComboBox_AccessModifier.Text = "public";
             this.ComboBox_AccessModifier.Validating += new System.ComponentModel.CancelEventHandler(this.ComboBox_AccessModifier_Validating);
             // 
@@ -229,7 +229,7 @@
             this.label8.Location = new System.Drawing.Point(14, 457);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(84, 20);
-            this.label8.TabIndex = 18;
+            this.label8.TabIndex = 11;
             this.label8.Text = "访问修饰符";
             // 
             // TextBox_NameSpace
@@ -237,7 +237,7 @@
             this.TextBox_NameSpace.Location = new System.Drawing.Point(109, 398);
             this.TextBox_NameSpace.Name = "TextBox_NameSpace";
             this.TextBox_NameSpace.Size = new System.Drawing.Size(232, 27);
-            this.TextBox_NameSpace.TabIndex = 17;
+            this.TextBox_NameSpace.TabIndex = 10;
             this.TextBox_NameSpace.Text = "Model";
             this.TextBox_NameSpace.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_NameSpace_Validating);
             // 
@@ -247,7 +247,7 @@
             this.label7.Location = new System.Drawing.Point(12, 401);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(91, 20);
-            this.label7.TabIndex = 16;
+            this.label7.TabIndex = 9;
             this.label7.Text = "namespace";
             // 
             // NumBox_TabSpace
@@ -260,7 +260,7 @@
             0});
             this.NumBox_TabSpace.Name = "NumBox_TabSpace";
             this.NumBox_TabSpace.Size = new System.Drawing.Size(95, 27);
-            this.NumBox_TabSpace.TabIndex = 15;
+            this.NumBox_TabSpace.TabIndex = 14;
             this.NumBox_TabSpace.Value = new decimal(new int[] {
             4,
             0,
@@ -274,7 +274,7 @@
             this.label6.Location = new System.Drawing.Point(12, 511);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(39, 20);
-            this.label6.TabIndex = 14;
+            this.label6.TabIndex = 13;
             this.label6.Text = "间隔";
             // 
             // TextBox_Using
@@ -284,7 +284,7 @@
             this.TextBox_Using.Name = "TextBox_Using";
             this.TextBox_Using.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TextBox_Using.Size = new System.Drawing.Size(267, 212);
-            this.TextBox_Using.TabIndex = 13;
+            this.TextBox_Using.TabIndex = 8;
             this.TextBox_Using.Text = "using System;";
             this.TextBox_Using.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Using_Validating);
             // 
@@ -294,7 +294,7 @@
             this.label5.Location = new System.Drawing.Point(12, 151);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(48, 20);
-            this.label5.TabIndex = 12;
+            this.label5.TabIndex = 7;
             this.label5.Text = "using";
             // 
             // ComboBox_Database
@@ -303,7 +303,7 @@
             this.ComboBox_Database.Location = new System.Drawing.Point(74, 14);
             this.ComboBox_Database.Name = "ComboBox_Database";
             this.ComboBox_Database.Size = new System.Drawing.Size(267, 28);
-            this.ComboBox_Database.TabIndex = 8;
+            this.ComboBox_Database.TabIndex = 1;
             this.ComboBox_Database.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Database_SelectedIndexChanged);
             // 
             // label4
@@ -312,7 +312,7 @@
             this.label4.Location = new System.Drawing.Point(14, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 20);
-            this.label4.TabIndex = 7;
+            this.label4.TabIndex = 0;
             this.label4.Text = "数据库";
             // 
             // SplitContainer_Main
@@ -333,7 +333,7 @@
             this.SplitContainer_Main.Size = new System.Drawing.Size(1182, 825);
             this.SplitContainer_Main.SplitterDistance = 325;
             this.SplitContainer_Main.SplitterWidth = 5;
-            this.SplitContainer_Main.TabIndex = 28;
+            this.SplitContainer_Main.TabIndex = 1;
             // 
             // menuStrip1
             // 
@@ -344,7 +344,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1182, 28);
-            this.menuStrip1.TabIndex = 30;
+            this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // ToolStripMenuItem_File
@@ -358,7 +358,7 @@
             // ToolStripMenuItem_NewConnection
             // 
             this.ToolStripMenuItem_NewConnection.Name = "ToolStripMenuItem_NewConnection";
-            this.ToolStripMenuItem_NewConnection.Size = new System.Drawing.Size(224, 26);
+            this.ToolStripMenuItem_NewConnection.Size = new System.Drawing.Size(152, 26);
             this.ToolStripMenuItem_NewConnection.Text = "新建连接";
             this.ToolStripMenuItem_NewConnection.Click += new System.EventHandler(this.ToolStripMenuItem_NewConnection_Click);
             // 

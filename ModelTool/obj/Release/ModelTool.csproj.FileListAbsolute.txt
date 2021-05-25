@@ -1,0 +1,11 @@
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.Forms.ConnectForm.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.Forms.WaitForm.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.Forms.MainForm.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.csproj.GenerateResource.cache
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.csproj.CoreCompileInputs.cache
+D:\Work Projects\ModelTool\ModelTool\bin\Release\ModelTool.exe.config
+D:\Work Projects\ModelTool\ModelTool\bin\Release\ModelTool.exe
+D:\Work Projects\ModelTool\ModelTool\bin\Release\ModelTool.pdb
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.Properties.Resources.resources
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.exe
+D:\Work Projects\ModelTool\ModelTool\obj\Release\ModelTool.pdb

@@ -16,18 +16,19 @@ namespace ModelTool.Forms
 {
     public partial class ConnectForm : Form
     {
-        MainForm mf { get; }
+        MainForm Parent_MainForm { get; }
         public ConnectForm(MainForm mf)
         {
             InitializeComponent();
 
-            this.mf = mf;
+            Parent_MainForm = mf;
 
             Init();
         }
 
         public void Init()
         {
+            ComboBox_SqlType.SelectedIndex = 0;
             TextBox_IP.Text = Settings.Default.IP;
             TextBox_Account.Text = Settings.Default.Account;
         }
@@ -70,7 +71,7 @@ namespace ModelTool.Forms
 
             Settings.Default.Save();
 
-            mf.SqlGeneratorSetting = new SqlGeneratorSetting
+            Parent_MainForm.SqlGeneratorSetting = new SqlGeneratorSetting
             {
                 SqlType = SqlType.MSSQLSERVER,
                 ServerAddress = IPAddress.Parse(TextBox_IP.Text),
@@ -78,7 +79,7 @@ namespace ModelTool.Forms
                 UserPassword = TextBox_Password.Text
             };
 
-            if (mf.TestDatabaseAndConnect())
+            if (Parent_MainForm.TestDatabaseAndConnect())
             {
                 Close();
             }

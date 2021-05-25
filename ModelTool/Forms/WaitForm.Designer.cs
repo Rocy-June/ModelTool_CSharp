@@ -41,7 +41,7 @@
             this.process_bar.Name = "process_bar";
             this.process_bar.Size = new System.Drawing.Size(355, 23);
             this.process_bar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.process_bar.TabIndex = 0;
+            this.process_bar.TabIndex = 1;
             // 
             // label_text
             // 
@@ -50,7 +50,7 @@
             this.label_text.Name = "label_text";
             this.label_text.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
             this.label_text.Size = new System.Drawing.Size(379, 109);
-            this.label_text.TabIndex = 1;
+            this.label_text.TabIndex = 0;
             this.label_text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // WaitForm

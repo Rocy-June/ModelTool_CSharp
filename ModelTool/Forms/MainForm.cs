@@ -88,16 +88,14 @@ namespace ModelTool.Forms
 
             try
             {
-                MSSQLServerGenerator msssg = new MSSQLServerGenerator(new ModelTool_CSharp.Model.SqlGeneratorSetting 
+                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
                 {
-                    SqlType = ModelTool_CSharp.Model.SqlType.MSSQLSERVER,
-                    ServerAddress = IPAddress.Parse()
-                });
-                var list = Core.Utility.GetDatabases(ConnectionString);
+                    var list = conn.GetDatabases();
 
-                ComboBox_Database.Items.Clear();
-                ComboBox_Database.Items.AddRange(list.ToArray());
-                ComboBox_Database.Text = list.Count > 0 ? list[list.Count - 1] : string.Empty;
+                    ComboBox_Database.Items.Clear();
+                    ComboBox_Database.Items.AddRange(list.ToArray());
+                    ComboBox_Database.Text = list.Count > 0 ? list[list.Count - 1] : string.Empty;
+                }
             }
             catch (Exception ex)
             {
@@ -118,11 +116,14 @@ namespace ModelTool.Forms
 
             try
             {
-                var list = Core.Utility.GetTables(ConnectionString, ComboBox_Database.Text);
+                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
+                {
+                    var list = conn.GetTables(ComboBox_Database.Text);
 
-                CheckList_DataTable.Items.Clear();
-                CheckList_DataTable.Items.AddRange(list.ToArray());
-                CheckList_DataTable.SelectedIndex = 0;
+                    CheckList_DataTable.Items.Clear();
+                    CheckList_DataTable.Items.AddRange(list.ToArray());
+                    CheckList_DataTable.SelectedIndex = 0; 
+                }
             }
             catch (Exception ex)
             {
@@ -143,18 +144,21 @@ namespace ModelTool.Forms
 
             try
             {
-                var list = Core.Utility.GetColumns(ConnectionString, ComboBox_Database.Text, CheckList_DataTable.Text);
-
-                TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
+                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
                 {
-                    Using = TextBox_Using.Text,
-                    Namespace = TextBox_NameSpace.Text,
-                    TabSpace = NumBox_TabSpace.Value.ToInt(),
-                    AccessModifier = ComboBox_AccessModifier.Text,
-                    ModelName = CheckList_DataTable.Text,
-                    UseSummary = CheckBox_UseSummary.Checked,
-                    Columns = list
-                });
+                    var list = conn.GetColumns(ComboBox_Database.Text, CheckList_DataTable.Text);
+
+                    TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
+                    {
+                        Using = TextBox_Using.Text,
+                        Namespace = TextBox_NameSpace.Text,
+                        TabSpace = NumBox_TabSpace.Value.ToInt(),
+                        AccessModifier = ComboBox_AccessModifier.Text,
+                        ModelName = CheckList_DataTable.Text,
+                        UseSummary = CheckBox_UseSummary.Checked,
+                        Columns = list
+                    }); 
+                }
             }
             catch (Exception ex)
             {
@@ -232,38 +236,40 @@ namespace ModelTool.Forms
 
             var thread = new Thread(() =>
             {
-                for (var i = 0; i < CheckList_DataTable.CheckedItems.Count; ++i)
+                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
                 {
-                    try
+                    for (var i = 0; i < CheckList_DataTable.CheckedItems.Count; ++i)
                     {
-                        var model_name = CheckList_DataTable.CheckedItems[i].ToString();
-
-                        loadingForm.RefreshState(i + 1, $"正在生成: {model_name}.cs");
-
-                        modelSetting.ModelName = model_name;
-                        modelSetting.Columns = Core.Utility.GetColumns(ConnectionString, database, model_name);
-
-                        var generated_text = ModelGenerator.Generate(modelSetting);
-
-                        using (var sw = new StreamWriter($"{TextBox_SaveLocation.Text}\\{model_name}.cs"))
+                        try
                         {
-                            sw.Write(generated_text);
+                            var modelName = CheckList_DataTable.CheckedItems[i].ToString();
+
+                            loadingForm.RefreshState(i + 1, $"正在生成: {modelName}.cs");
+
+                            modelSetting.ModelName = modelName;
+                            modelSetting.Columns = conn.GetColumns(database, modelName);
+
+                            var generated_text = ModelGenerator.Generate(modelSetting);
+
+                            using (var sw = new StreamWriter($"{TextBox_SaveLocation.Text}\\{modelName}.cs"))
+                            {
+                                sw.Write(generated_text);
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        hasGenerateError = true;
-
-                        var logFilePath = $"{TextBox_SaveLocation.Text}\\error.log";
-
-                        if (!File.Exists(logFilePath))
+                        catch (Exception ex)
                         {
-                            var fs = File.Create(logFilePath);
-                            fs.Dispose();
-                        }
-                        using (var sw = new StreamWriter(logFilePath, true))
-                        {
-                            sw.WriteLine($@"=== Exception log {DateTime.Now:yyyy-MM-dd hh:mm:ss} BEGINS ===
+                            hasGenerateError = true;
+
+                            var logFilePath = $"{TextBox_SaveLocation.Text}\\error.log";
+
+                            if (!File.Exists(logFilePath))
+                            {
+                                var fs = File.Create(logFilePath);
+                                fs.Dispose();
+                            }
+                            using (var sw = new StreamWriter(logFilePath, true))
+                            {
+                                sw.WriteLine($@"=== Exception log {DateTime.Now:yyyy-MM-dd hh:mm:ss} BEGINS ===
 
 Exception message:
 {ex.Message}
@@ -272,8 +278,9 @@ Exception stack trace:
 {ex.StackTrace}
 
 === Exception log ENDS ===");
+                            }
                         }
-                    }
+                    } 
                 }
 
                 loadingForm.WorkComplete();
