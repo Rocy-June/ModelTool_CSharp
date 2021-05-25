@@ -49,8 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Generator\Sql\MSSQLServerGenerator.cs" />
-    <Compile Include="Core\Generator\Sql\SqlGenerator.cs" />
+    <Compile Include="Core\Generator\Sql\Base\MySQLGenerator.cs" />
+    <Compile Include="Core\Generator\Sql\Base\MSSQLServerGenerator.cs" />
+    <Compile Include="Core\Generator\Sql\UniversalGenerator.cs" />
+    <Compile Include="Core\Generator\Sql\Interface\ISqlGenerator.cs" />
     <Compile Include="Forms\ConnectForm.cs">
       <SubType>Form</SubType>
     </Compile>

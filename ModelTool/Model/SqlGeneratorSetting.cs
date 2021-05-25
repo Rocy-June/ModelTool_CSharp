@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool_CSharp.Model
+namespace ModelTool.Model
 {
     public class SqlGeneratorSetting
     {

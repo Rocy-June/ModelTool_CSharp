@@ -1,9 +1,7 @@
-﻿using ModelTool.Core;
-using ModelTool.Core.Generator.Model;
+﻿using ModelTool.Core.Generator.Model;
 using ModelTool.Helper;
 using ModelTool.Model;
-using ModelTool_CSharp.Core.Generator.Sql;
-using ModelTool_CSharp.Model;
+using ModelTool.Core.Generator.Sql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -88,9 +86,9 @@ namespace ModelTool.Forms
 
             try
             {
-                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
+                using (var generator = new UniversalGenerator(SqlGeneratorSetting))
                 {
-                    var list = conn.GetDatabases();
+                    var list = generator.Generator.GetDatabases();
 
                     ComboBox_Database.Items.Clear();
                     ComboBox_Database.Items.AddRange(list.ToArray());
@@ -116,9 +114,9 @@ namespace ModelTool.Forms
 
             try
             {
-                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
+                using (var uni = new UniversalGenerator(SqlGeneratorSetting))
                 {
-                    var list = conn.GetTables(ComboBox_Database.Text);
+                    var list = uni.GetTables(ComboBox_Database.Text);
 
                     CheckList_DataTable.Items.Clear();
                     CheckList_DataTable.Items.AddRange(list.ToArray());
@@ -144,9 +142,9 @@ namespace ModelTool.Forms
 
             try
             {
-                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
+                using (var uni = new UniversalGenerator(SqlGeneratorSetting))
                 {
-                    var list = conn.GetColumns(ComboBox_Database.Text, CheckList_DataTable.Text);
+                    var list = uni.GetColumns(ComboBox_Database.Text, CheckList_DataTable.Text);
 
                     TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
                     {
@@ -236,7 +234,7 @@ namespace ModelTool.Forms
 
             var thread = new Thread(() =>
             {
-                using (var conn = new MSSQLServerGenerator(SqlGeneratorSetting))
+                using (var uni = new UniversalGenerator(SqlGeneratorSetting))
                 {
                     for (var i = 0; i < CheckList_DataTable.CheckedItems.Count; ++i)
                     {
@@ -247,7 +245,7 @@ namespace ModelTool.Forms
                             loadingForm.RefreshState(i + 1, $"正在生成: {modelName}.cs");
 
                             modelSetting.ModelName = modelName;
-                            modelSetting.Columns = conn.GetColumns(database, modelName);
+                            modelSetting.Columns = uni.GetColumns(database, modelName);
 
                             var generated_text = ModelGenerator.Generate(modelSetting);
 

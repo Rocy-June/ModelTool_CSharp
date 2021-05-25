@@ -1,24 +1,33 @@
-﻿using ModelTool.Model;
-using ModelTool_CSharp.Model;
+﻿using ModelTool.Core.Generator.Sql.Interface;
+using ModelTool.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool_CSharp.Core.Generator.Sql
+namespace ModelTool.Core.Generator.Sql.Base
 {
-    public class MSSQLServerGenerator : SqlGenerator<SqlConnection>
+    class MySQLGenerator : ISqlGenerator
     {
-        public MSSQLServerGenerator(SqlGeneratorSetting setting) : base(setting) { }
+        public SqlGeneratorSetting Setting { get; }
 
-        public override SqlConnection GetConnection()
+        private SqlConnection Connection { get; }
+
+        public MySQLGenerator(SqlGeneratorSetting setting) 
+        {
+            Setting = setting;
+            Connection = GetConnection() as SqlConnection;
+        }
+
+        public DbConnection GetConnection()
         {
             return new SqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
         }
 
-        public override List<string> GetDatabases()
+        public List<string> GetDatabases()
         {
             try
             {
@@ -30,7 +39,7 @@ namespace ModelTool_CSharp.Core.Generator.Sql
                 Console.WriteLine(getDatabaseStr);
 #endif
 
-                using (var cmd = new SqlCommand(getDatabaseStr, Connection))
+                using (var cmd = new SqlCommand(getDatabaseStr, Connection as SqlConnection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -49,7 +58,7 @@ namespace ModelTool_CSharp.Core.Generator.Sql
             }
         }
 
-        public override List<string> GetTables(string database)
+        public List<string> GetTables(string database)
         {
             try
             {
@@ -79,7 +88,7 @@ namespace ModelTool_CSharp.Core.Generator.Sql
                 Connection.Close();
             }
         }
-        public override List<ColumnInfo> GetColumns(string database, string table)
+        public List<ColumnInfo> GetColumns(string database, string table)
         {
             try
             {
@@ -120,6 +129,11 @@ WHERE so.name = '{table}'";
             {
                 Connection.Close();
             }
+        }
+
+        public void Dispose()
+        {
+            Connection.Dispose();
         }
 
         /* 

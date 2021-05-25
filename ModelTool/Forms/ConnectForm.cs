@@ -1,4 +1,4 @@
-﻿using ModelTool_CSharp.Model;
+﻿using ModelTool.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,7 +55,7 @@ namespace ModelTool.Forms
 
         private void Button_Connect_Click(object sender, EventArgs e)
         {
-            if (!IPAddress.TryParse(TextBox_IP.Text, out _))
+            if (!IPAddress.TryParse(TextBox_IP.Text, out var ipAddress))
             {
                 MessageBox.Show("请正确输入IP地址", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -73,8 +73,8 @@ namespace ModelTool.Forms
 
             Parent_MainForm.SqlGeneratorSetting = new SqlGeneratorSetting
             {
-                SqlType = SqlType.MSSQLSERVER,
-                ServerAddress = IPAddress.Parse(TextBox_IP.Text),
+                SqlType = (SqlType)ComboBox_SqlType.SelectedIndex,
+                ServerAddress = ipAddress,
                 UserAccount = TextBox_Account.Text,
                 UserPassword = TextBox_Password.Text
             };
