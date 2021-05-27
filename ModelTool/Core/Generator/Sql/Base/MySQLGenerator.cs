@@ -3,10 +3,10 @@ using ModelTool.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace ModelTool.Core.Generator.Sql.Base
 {
@@ -14,17 +14,19 @@ namespace ModelTool.Core.Generator.Sql.Base
     {
         public SqlGeneratorSetting Setting { get; }
 
-        private SqlConnection Connection { get; }
+        private MySqlConnection Connection { get; }
+
+        private const string IS_NULLABLE_YES = "YES";
 
         public MySQLGenerator(SqlGeneratorSetting setting) 
         {
             Setting = setting;
-            Connection = GetConnection() as SqlConnection;
+            Connection = GetConnection() as MySqlConnection;
         }
 
         public DbConnection GetConnection()
         {
-            return new SqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
+            return new MySqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
         }
 
         public List<string> GetDatabases()
@@ -33,13 +35,13 @@ namespace ModelTool.Core.Generator.Sql.Base
             {
                 Connection.Open();
 
-                var getDatabaseStr = "SELECT name FROM Master..SysDatabases ORDER BY name";
+                var getDatabaseStr = "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA";
 
 #if DEBUG
                 Console.WriteLine(getDatabaseStr);
 #endif
 
-                using (var cmd = new SqlCommand(getDatabaseStr, Connection as SqlConnection))
+                using (var cmd = new MySqlCommand(getDatabaseStr, Connection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -64,13 +66,13 @@ namespace ModelTool.Core.Generator.Sql.Base
             {
                 Connection.Open();
 
-                var getTableStr = $"SELECT name FROM {database}..SysObjects WHERE XType='U' ORDER BY name";
+                var getTableStr = $"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '{database}'";
 
 #if DEBUG
                 Console.WriteLine(getTableStr);
 #endif
 
-                using (var cmd = new SqlCommand(getTableStr, Connection))
+                using (var cmd = new MySqlCommand(getTableStr, Connection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -94,18 +96,16 @@ namespace ModelTool.Core.Generator.Sql.Base
             {
                 Connection.Open();
 
-                var getColumnStr = $@"SELECT sc.name, st.name, sc.isnullable, sep.value
-FROM {database}.sys.syscolumns sc
-LEFT JOIN {database}.sys.systypes st ON sc.xusertype = st.xusertype
-INNER JOIN {database}.sys.sysobjects so ON sc.id = so.id AND so.xtype = 'U' AND so.name <> 'dtproperties'
-LEFT JOIN {database}.sys.extended_properties sep ON sc.id = sep.major_id AND sc.colid = sep.minor_id
-WHERE so.name = '{table}'";
+                var getColumnStr = $@"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_COMMENT
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = '{database}'
+AND TABLE_NAME = '{table}'";
 
 #if DEBUG
                 Console.WriteLine(getColumnStr);
 #endif
 
-                using (var cmd = new SqlCommand(getColumnStr, Connection))
+                using (var cmd = new MySqlCommand(getColumnStr, Connection))
                 {
                     var reader = cmd.ExecuteReader();
 
@@ -116,7 +116,7 @@ WHERE so.name = '{table}'";
                         {
                             Summary = reader.GetString(3),
                             Type = reader.GetString(1),
-                            IsNullable = reader.GetInt32(2) == 1,
+                            IsNullable = reader.GetString(2) == IS_NULLABLE_YES,
                             Name = reader.GetString(0)
                         });
                     }
@@ -140,40 +140,10 @@ WHERE so.name = '{table}'";
          
 Completed Table Query SQL 
         
-SELECT
-    [TableName]		=	CASE WHEN sc.colorder = 1 THEN so.name ELSE '' END,
-    [TableExplain]	=	CASE WHEN sc.colorder = 1 THEN ISNULL(sep_te.value, '') ELSE '' END,
-    [FieldNumber]	=	sc.colorder,
-    [FieldName]		=	sc.name,
-    [IsIdentity]	=	CASE WHEN COLUMNPROPERTY(sc.id,sc.name, 'IsIdentity') = 1 THEN '√' ELSE '' END,
-    [PrimaryKey]	=	CASE WHEN EXISTS (
-							SELECT 1 FROM sysobjects
-							WHERE xtype = 'PK'
-								AND parent_obj = sc.id 
-								AND name IN (
-									SELECT name FROM sysindexes
-									WHERE indid IN (
-										SELECT indid FROM sysindexkeys
-										WHERE id = sc.id 
-										AND colid = sc.colid
-									)
-								)
-						) THEN '√' ELSE '' END,
-    [Type]			=	st.name,
-    [OccupySize]	=	sc.length,
-    [Length]		=	COLUMNPROPERTY(sc.id, sc.name, 'PRECISION'),
-    [Scale]			=	ISNULL(COLUMNPROPERTY(sc.id, sc.name, 'Scale'),0),
-    [AllowNull]		=	CASE WHEN sc.isnullable = 1 THEN '√' ELSE '' END,
-    [Default]		=	ISNULL(scm.text, ''),
-    [FieldExplain]	=	ISNULL(sep_fe.value, '')
-FROM syscolumns sc
-LEFT JOIN systypes st ON sc.xusertype = st.xusertype
-INNER JOIN sysobjects so ON sc.id = so.id AND so.xtype='U' AND so.name <> 'dtproperties'
-LEFT JOIN syscomments scm ON sc.cdefault = scm.id
-LEFT JOIN sys.extended_properties sep_fe ON sc.id = sep_fe.major_id AND sc.colid = sep_fe.minor_id
-LEFT JOIN sys.extended_properties sep_te ON so.id = sep_te.major_id AND sep_te.minor_id = 0
-WHERE so.name = 'TR_BD_DrugsData'
-ORDER BY sc.id, sc.colorder
+SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_COMMENT
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = 'DataBase'
+AND TABLE_NAME = 'Table'
          
          */
     }

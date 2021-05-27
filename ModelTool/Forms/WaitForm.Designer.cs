@@ -28,30 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.process_bar = new System.Windows.Forms.ProgressBar();
-            this.label_text = new System.Windows.Forms.Label();
+            this.ProgressBar_Main = new System.Windows.Forms.ProgressBar();
+            this.Label_Text = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // process_bar
+            // ProgressBar_Main
             // 
-            this.process_bar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ProgressBar_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.process_bar.Location = new System.Drawing.Point(12, 12);
-            this.process_bar.MarqueeAnimationSpeed = 16;
-            this.process_bar.Name = "process_bar";
-            this.process_bar.Size = new System.Drawing.Size(355, 23);
-            this.process_bar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.process_bar.TabIndex = 1;
+            this.ProgressBar_Main.Location = new System.Drawing.Point(12, 12);
+            this.ProgressBar_Main.MarqueeAnimationSpeed = 16;
+            this.ProgressBar_Main.Name = "ProgressBar_Main";
+            this.ProgressBar_Main.Size = new System.Drawing.Size(355, 23);
+            this.ProgressBar_Main.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.ProgressBar_Main.TabIndex = 1;
             // 
-            // label_text
+            // Label_Text
             // 
-            this.label_text.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_text.Location = new System.Drawing.Point(0, 0);
-            this.label_text.Name = "label_text";
-            this.label_text.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
-            this.label_text.Size = new System.Drawing.Size(379, 109);
-            this.label_text.TabIndex = 0;
-            this.label_text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.Label_Text.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Label_Text.Location = new System.Drawing.Point(0, 0);
+            this.Label_Text.Name = "Label_Text";
+            this.Label_Text.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
+            this.Label_Text.Size = new System.Drawing.Size(379, 109);
+            this.Label_Text.TabIndex = 0;
+            this.Label_Text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // WaitForm
             // 
@@ -59,8 +59,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(379, 109);
             this.ControlBox = false;
-            this.Controls.Add(this.process_bar);
-            this.Controls.Add(this.label_text);
+            this.Controls.Add(this.ProgressBar_Main);
+            this.Controls.Add(this.Label_Text);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "WaitForm";
             this.ShowInTaskbar = false;
@@ -73,7 +73,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar process_bar;
-        private System.Windows.Forms.Label label_text;
+        private System.Windows.Forms.ProgressBar ProgressBar_Main;
+        private System.Windows.Forms.Label Label_Text;
     }
 }

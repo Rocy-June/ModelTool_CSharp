@@ -220,7 +220,7 @@ namespace ModelTool.Forms
                 Directory.CreateDirectory(TextBox_SaveLocation.Text);
             }
 
-            var loadingForm = new WaitForm(CheckList_DataTable.CheckedItems.Count);
+            var loadingForm = new WaitForm("正在生成", CheckList_DataTable.CheckedItems.Count);
             var database = ComboBox_Database.Text;
             var modelSetting = new ModelSetting()
             {

@@ -41,17 +41,17 @@
             this.TextBox_SaveLocation = new System.Windows.Forms.TextBox();
             this.CheckBox_UseSummary = new System.Windows.Forms.CheckBox();
             this.ComboBox_AccessModifier = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.Label_Privacy = new System.Windows.Forms.Label();
             this.TextBox_NameSpace = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.Label_NameSpace = new System.Windows.Forms.Label();
             this.NumBox_TabSpace = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
+            this.Label_TabSpace = new System.Windows.Forms.Label();
             this.TextBox_Using = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.Label_Using = new System.Windows.Forms.Label();
             this.ComboBox_Database = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.Label_Database = new System.Windows.Forms.Label();
             this.SplitContainer_Main = new System.Windows.Forms.SplitContainer();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuStrip_Main = new System.Windows.Forms.MenuStrip();
             this.ToolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_NewConnection = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +61,7 @@
             this.SplitContainer_Main.Panel1.SuspendLayout();
             this.SplitContainer_Main.Panel2.SuspendLayout();
             this.SplitContainer_Main.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.MenuStrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
             // CheckList_DataTable
@@ -70,7 +70,7 @@
             this.CheckList_DataTable.FormattingEnabled = true;
             this.CheckList_DataTable.Location = new System.Drawing.Point(0, 0);
             this.CheckList_DataTable.Name = "CheckList_DataTable";
-            this.CheckList_DataTable.Size = new System.Drawing.Size(325, 825);
+            this.CheckList_DataTable.Size = new System.Drawing.Size(324, 823);
             this.CheckList_DataTable.TabIndex = 0;
             this.CheckList_DataTable.SelectedIndexChanged += new System.EventHandler(this.CheckList_DataTable_SelectedIndexChanged);
             // 
@@ -84,7 +84,7 @@
             this.TextBox_Generated.Name = "TextBox_Generated";
             this.TextBox_Generated.ReadOnly = true;
             this.TextBox_Generated.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBox_Generated.Size = new System.Drawing.Size(481, 825);
+            this.TextBox_Generated.Size = new System.Drawing.Size(482, 823);
             this.TextBox_Generated.TabIndex = 1;
             this.TextBox_Generated.Text = "using System;\r\n\r\nnamespace Model\r\n{\r\n\r\n}";
             // 
@@ -100,19 +100,19 @@
             this.Panel_Settings.Controls.Add(this.TextBox_SaveLocation);
             this.Panel_Settings.Controls.Add(this.CheckBox_UseSummary);
             this.Panel_Settings.Controls.Add(this.ComboBox_AccessModifier);
-            this.Panel_Settings.Controls.Add(this.label8);
+            this.Panel_Settings.Controls.Add(this.Label_Privacy);
             this.Panel_Settings.Controls.Add(this.TextBox_NameSpace);
-            this.Panel_Settings.Controls.Add(this.label7);
+            this.Panel_Settings.Controls.Add(this.Label_NameSpace);
             this.Panel_Settings.Controls.Add(this.NumBox_TabSpace);
-            this.Panel_Settings.Controls.Add(this.label6);
+            this.Panel_Settings.Controls.Add(this.Label_TabSpace);
             this.Panel_Settings.Controls.Add(this.TextBox_Using);
-            this.Panel_Settings.Controls.Add(this.label5);
+            this.Panel_Settings.Controls.Add(this.Label_Using);
             this.Panel_Settings.Controls.Add(this.ComboBox_Database);
-            this.Panel_Settings.Controls.Add(this.label4);
+            this.Panel_Settings.Controls.Add(this.Label_Database);
             this.Panel_Settings.Dock = System.Windows.Forms.DockStyle.Left;
             this.Panel_Settings.Location = new System.Drawing.Point(0, 0);
             this.Panel_Settings.Name = "Panel_Settings";
-            this.Panel_Settings.Size = new System.Drawing.Size(371, 825);
+            this.Panel_Settings.Size = new System.Drawing.Size(371, 823);
             this.Panel_Settings.TabIndex = 0;
             // 
             // Button_RefreshDatabaseList
@@ -138,7 +138,7 @@
             // Button_StartGenerate
             // 
             this.Button_StartGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Button_StartGenerate.Location = new System.Drawing.Point(200, 744);
+            this.Button_StartGenerate.Location = new System.Drawing.Point(200, 742);
             this.Button_StartGenerate.Name = "Button_StartGenerate";
             this.Button_StartGenerate.Size = new System.Drawing.Size(136, 51);
             this.Button_StartGenerate.TabIndex = 18;
@@ -148,7 +148,7 @@
             // 
             // Button_ClearTableSelect
             // 
-            this.Button_ClearTableSelect.Location = new System.Drawing.Point(74, 86);
+            this.Button_ClearTableSelect.Location = new System.Drawing.Point(256, 86);
             this.Button_ClearTableSelect.Name = "Button_ClearTableSelect";
             this.Button_ClearTableSelect.Size = new System.Drawing.Size(85, 32);
             this.Button_ClearTableSelect.TabIndex = 4;
@@ -158,7 +158,7 @@
             // 
             // Button_ReverseTableSelect
             // 
-            this.Button_ReverseTableSelect.Location = new System.Drawing.Point(256, 86);
+            this.Button_ReverseTableSelect.Location = new System.Drawing.Point(165, 86);
             this.Button_ReverseTableSelect.Name = "Button_ReverseTableSelect";
             this.Button_ReverseTableSelect.Size = new System.Drawing.Size(85, 32);
             this.Button_ReverseTableSelect.TabIndex = 6;
@@ -169,7 +169,7 @@
             // Button_EditLocation
             // 
             this.Button_EditLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Button_EditLocation.Location = new System.Drawing.Point(42, 744);
+            this.Button_EditLocation.Location = new System.Drawing.Point(42, 742);
             this.Button_EditLocation.Name = "Button_EditLocation";
             this.Button_EditLocation.Size = new System.Drawing.Size(136, 51);
             this.Button_EditLocation.TabIndex = 17;
@@ -179,7 +179,7 @@
             // 
             // Button_SelectAllTables
             // 
-            this.Button_SelectAllTables.Location = new System.Drawing.Point(165, 86);
+            this.Button_SelectAllTables.Location = new System.Drawing.Point(74, 86);
             this.Button_SelectAllTables.Name = "Button_SelectAllTables";
             this.Button_SelectAllTables.Size = new System.Drawing.Size(85, 32);
             this.Button_SelectAllTables.TabIndex = 5;
@@ -189,6 +189,7 @@
             // 
             // TextBox_SaveLocation
             // 
+            this.TextBox_SaveLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBox_SaveLocation.BackColor = System.Drawing.SystemColors.Window;
             this.TextBox_SaveLocation.Location = new System.Drawing.Point(42, 694);
             this.TextBox_SaveLocation.Name = "TextBox_SaveLocation";
@@ -223,14 +224,14 @@
             this.ComboBox_AccessModifier.Text = "public";
             this.ComboBox_AccessModifier.Validating += new System.ComponentModel.CancelEventHandler(this.ComboBox_AccessModifier_Validating);
             // 
-            // label8
+            // Label_Privacy
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(14, 457);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(84, 20);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "访问修饰符";
+            this.Label_Privacy.AutoSize = true;
+            this.Label_Privacy.Location = new System.Drawing.Point(14, 457);
+            this.Label_Privacy.Name = "Label_Privacy";
+            this.Label_Privacy.Size = new System.Drawing.Size(84, 20);
+            this.Label_Privacy.TabIndex = 11;
+            this.Label_Privacy.Text = "访问修饰符";
             // 
             // TextBox_NameSpace
             // 
@@ -241,14 +242,14 @@
             this.TextBox_NameSpace.Text = "Model";
             this.TextBox_NameSpace.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_NameSpace_Validating);
             // 
-            // label7
+            // Label_NameSpace
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 401);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(91, 20);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "namespace";
+            this.Label_NameSpace.AutoSize = true;
+            this.Label_NameSpace.Location = new System.Drawing.Point(12, 401);
+            this.Label_NameSpace.Name = "Label_NameSpace";
+            this.Label_NameSpace.Size = new System.Drawing.Size(91, 20);
+            this.Label_NameSpace.TabIndex = 9;
+            this.Label_NameSpace.Text = "namespace";
             // 
             // NumBox_TabSpace
             // 
@@ -268,14 +269,14 @@
             0});
             this.NumBox_TabSpace.Validating += new System.ComponentModel.CancelEventHandler(this.NumBox_TabSpace_Validating);
             // 
-            // label6
+            // Label_TabSpace
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 511);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 20);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "间隔";
+            this.Label_TabSpace.AutoSize = true;
+            this.Label_TabSpace.Location = new System.Drawing.Point(12, 511);
+            this.Label_TabSpace.Name = "Label_TabSpace";
+            this.Label_TabSpace.Size = new System.Drawing.Size(39, 20);
+            this.Label_TabSpace.TabIndex = 13;
+            this.Label_TabSpace.Text = "间隔";
             // 
             // TextBox_Using
             // 
@@ -288,14 +289,14 @@
             this.TextBox_Using.Text = "using System;";
             this.TextBox_Using.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Using_Validating);
             // 
-            // label5
+            // Label_Using
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 151);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 20);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "using";
+            this.Label_Using.AutoSize = true;
+            this.Label_Using.Location = new System.Drawing.Point(12, 151);
+            this.Label_Using.Name = "Label_Using";
+            this.Label_Using.Size = new System.Drawing.Size(48, 20);
+            this.Label_Using.TabIndex = 7;
+            this.Label_Using.Text = "using";
             // 
             // ComboBox_Database
             // 
@@ -306,19 +307,19 @@
             this.ComboBox_Database.TabIndex = 1;
             this.ComboBox_Database.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Database_SelectedIndexChanged);
             // 
-            // label4
+            // Label_Database
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 20);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "数据库";
+            this.Label_Database.AutoSize = true;
+            this.Label_Database.Location = new System.Drawing.Point(14, 18);
+            this.Label_Database.Name = "Label_Database";
+            this.Label_Database.Size = new System.Drawing.Size(54, 20);
+            this.Label_Database.TabIndex = 0;
+            this.Label_Database.Text = "数据库";
             // 
             // SplitContainer_Main
             // 
             this.SplitContainer_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer_Main.Location = new System.Drawing.Point(0, 28);
+            this.SplitContainer_Main.Location = new System.Drawing.Point(0, 30);
             this.SplitContainer_Main.Name = "SplitContainer_Main";
             // 
             // SplitContainer_Main.Panel1
@@ -330,42 +331,42 @@
             // 
             this.SplitContainer_Main.Panel2.Controls.Add(this.TextBox_Generated);
             this.SplitContainer_Main.Panel2.Controls.Add(this.Panel_Settings);
-            this.SplitContainer_Main.Size = new System.Drawing.Size(1182, 825);
-            this.SplitContainer_Main.SplitterDistance = 325;
+            this.SplitContainer_Main.Size = new System.Drawing.Size(1182, 823);
+            this.SplitContainer_Main.SplitterDistance = 324;
             this.SplitContainer_Main.SplitterWidth = 5;
             this.SplitContainer_Main.TabIndex = 1;
             // 
-            // menuStrip1
+            // MenuStrip_Main
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStrip_Main.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.MenuStrip_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_File,
             this.ToolStripMenuItem_Exit});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1182, 28);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MenuStrip_Main.Location = new System.Drawing.Point(0, 0);
+            this.MenuStrip_Main.Name = "MenuStrip_Main";
+            this.MenuStrip_Main.Size = new System.Drawing.Size(1182, 30);
+            this.MenuStrip_Main.TabIndex = 0;
+            this.MenuStrip_Main.Text = "menuStrip1";
             // 
             // ToolStripMenuItem_File
             // 
             this.ToolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_NewConnection});
             this.ToolStripMenuItem_File.Name = "ToolStripMenuItem_File";
-            this.ToolStripMenuItem_File.Size = new System.Drawing.Size(53, 24);
+            this.ToolStripMenuItem_File.Size = new System.Drawing.Size(53, 26);
             this.ToolStripMenuItem_File.Text = "文件";
             // 
             // ToolStripMenuItem_NewConnection
             // 
             this.ToolStripMenuItem_NewConnection.Name = "ToolStripMenuItem_NewConnection";
-            this.ToolStripMenuItem_NewConnection.Size = new System.Drawing.Size(152, 26);
+            this.ToolStripMenuItem_NewConnection.Size = new System.Drawing.Size(224, 26);
             this.ToolStripMenuItem_NewConnection.Text = "新建连接";
             this.ToolStripMenuItem_NewConnection.Click += new System.EventHandler(this.ToolStripMenuItem_NewConnection_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
             this.ToolStripMenuItem_Exit.Name = "ToolStripMenuItem_Exit";
-            this.ToolStripMenuItem_Exit.Size = new System.Drawing.Size(53, 24);
+            this.ToolStripMenuItem_Exit.Size = new System.Drawing.Size(53, 26);
             this.ToolStripMenuItem_Exit.Text = "退出";
             // 
             // MainForm
@@ -374,9 +375,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1182, 853);
             this.Controls.Add(this.SplitContainer_Main);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.MenuStrip_Main);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.MenuStrip_Main;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "实体类生成工具";
@@ -389,8 +390,8 @@
             this.SplitContainer_Main.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_Main)).EndInit();
             this.SplitContainer_Main.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuStrip_Main.ResumeLayout(false);
+            this.MenuStrip_Main.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -402,25 +403,25 @@
         private System.Windows.Forms.Panel Panel_Settings;
         private System.Windows.Forms.TextBox TextBox_Generated;
         private System.Windows.Forms.ComboBox ComboBox_AccessModifier;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label Label_Privacy;
         private System.Windows.Forms.TextBox TextBox_NameSpace;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label Label_NameSpace;
         private System.Windows.Forms.NumericUpDown NumBox_TabSpace;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label Label_TabSpace;
         private System.Windows.Forms.TextBox TextBox_Using;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label Label_Using;
         private System.Windows.Forms.Button Button_ClearTableSelect;
         private System.Windows.Forms.Button Button_ReverseTableSelect;
         private System.Windows.Forms.Button Button_SelectAllTables;
         private System.Windows.Forms.ComboBox ComboBox_Database;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label Label_Database;
         private System.Windows.Forms.Button Button_StartGenerate;
         private System.Windows.Forms.Button Button_EditLocation;
         private System.Windows.Forms.TextBox TextBox_SaveLocation;
         private System.Windows.Forms.CheckBox CheckBox_UseSummary;
         private System.Windows.Forms.Button Button_RefreshTableList;
         private System.Windows.Forms.SplitContainer SplitContainer_Main;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MenuStrip_Main;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_NewConnection;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Exit;

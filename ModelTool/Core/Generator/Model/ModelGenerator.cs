@@ -56,14 +56,17 @@ namespace {setting.Namespace}
             var nullableStr = nullable ? "?" : "";
             switch (type)
             {
-                case "bigint":
-                    return $"long{nullableStr}";
-                case "smallint":
-                    return $"short{nullableStr}";
                 case "tinyint":
                     return $"byte{nullableStr}";
                 case "bit":
                     return $"bool{nullableStr}";
+                case "smallint":
+                    return $"short{nullableStr}";
+                case "mediumint":
+                case "integer":
+                    return $"int{nullableStr}";
+                case "bigint":
+                    return $"long{nullableStr}";
                 case "numeric":
                 case "money":
                 case "smallmoney":
@@ -74,6 +77,7 @@ namespace {setting.Namespace}
                     return $"float{nullableStr}";
                 case "date":
                 case "time":
+                case "year":
                 case "datetime":
                 case "datetime2":
                 case "datetimeoffset":
@@ -86,6 +90,12 @@ namespace {setting.Namespace}
                 case "nvarchar":
                 case "text":
                 case "ntext":
+                case "tinytext":
+                case "blob":
+                case "mediumblob":
+                case "mediumtext":
+                case "longblob":
+                case "longtext":
                     return "string";
                 case "binary":
                 case "varbinary":

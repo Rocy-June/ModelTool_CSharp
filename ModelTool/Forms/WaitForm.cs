@@ -15,21 +15,30 @@ namespace ModelTool.Forms
     {
         private Thread workingThread;
 
-        public WaitForm(int totalCount)
+        public WaitForm(string title, int totalCount = 0)
         {
             InitializeComponent();
 
-            process_bar.Maximum = totalCount;
+            Name = title;
+
+            if (totalCount > 0)
+            {
+                ProgressBar_Main.Maximum = totalCount;
+            }
+            else 
+            {
+                Label_Text.Text = "请稍候...";
+            }
         }
 
         public void RefreshState(int nowCount, string showText)
         {
             Invoke(new Action(() =>
             {
-                process_bar.Style = ProgressBarStyle.Blocks;
-                process_bar.Value = nowCount;
+                ProgressBar_Main.Style = ProgressBarStyle.Blocks;
+                ProgressBar_Main.Value = nowCount;
 
-                label_text.Text = showText;
+                Label_Text.Text = showText;
             }));
         }
 

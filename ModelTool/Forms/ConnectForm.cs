@@ -28,7 +28,7 @@ namespace ModelTool.Forms
 
         public void Init()
         {
-            ComboBox_SqlType.SelectedIndex = 0;
+            ComboBox_SqlType.SelectedIndex = Settings.Default.DataBaseTypeSelectedIndex;
             TextBox_IP.Text = Settings.Default.IP;
             TextBox_Account.Text = Settings.Default.Account;
         }
@@ -36,6 +36,15 @@ namespace ModelTool.Forms
         public new void Show()
         {
             ShowDialog();
+        }
+
+        private void ComboBox_SqlType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ComboBox_SqlType.SelectedIndex == 2)
+            {
+                MessageBox.Show("Oracle数据库暂未完成具体实现, 请等待后续更新...", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ComboBox_SqlType.SelectedIndex = 0;
+            }
         }
 
         private void TextBox_IP_TextChanged(object sender, EventArgs e)
@@ -66,6 +75,7 @@ namespace ModelTool.Forms
                 return;
             }
 
+            Settings.Default.DataBaseTypeSelectedIndex = ComboBox_SqlType.SelectedIndex;
             Settings.Default.IP = TextBox_IP.Text;
             Settings.Default.Account = TextBox_Account.Text;
 

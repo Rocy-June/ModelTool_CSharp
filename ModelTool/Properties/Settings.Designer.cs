@@ -118,5 +118,17 @@ namespace ModelTool.Properties {
                 this["SaveLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DataBaseTypeSelectedIndex {
+            get {
+                return ((int)(this["DataBaseTypeSelectedIndex"]));
+            }
+            set {
+                this["DataBaseTypeSelectedIndex"] = value;
+            }
+        }
     }
 }
