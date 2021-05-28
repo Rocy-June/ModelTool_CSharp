@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CheckList_DataTable = new System.Windows.Forms.CheckedListBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.CheckedListBox_DataTable = new System.Windows.Forms.CheckedListBox();
             this.TextBox_Generated = new System.Windows.Forms.TextBox();
             this.Panel_Settings = new System.Windows.Forms.Panel();
             this.Button_RefreshDatabaseList = new System.Windows.Forms.Button();
@@ -64,15 +65,15 @@
             this.MenuStrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
-            // CheckList_DataTable
+            // CheckedListBox_DataTable
             // 
-            this.CheckList_DataTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CheckList_DataTable.FormattingEnabled = true;
-            this.CheckList_DataTable.Location = new System.Drawing.Point(0, 0);
-            this.CheckList_DataTable.Name = "CheckList_DataTable";
-            this.CheckList_DataTable.Size = new System.Drawing.Size(324, 823);
-            this.CheckList_DataTable.TabIndex = 0;
-            this.CheckList_DataTable.SelectedIndexChanged += new System.EventHandler(this.CheckList_DataTable_SelectedIndexChanged);
+            this.CheckedListBox_DataTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CheckedListBox_DataTable.FormattingEnabled = true;
+            this.CheckedListBox_DataTable.Location = new System.Drawing.Point(0, 0);
+            this.CheckedListBox_DataTable.Name = "CheckedListBox_DataTable";
+            this.CheckedListBox_DataTable.Size = new System.Drawing.Size(324, 825);
+            this.CheckedListBox_DataTable.TabIndex = 0;
+            this.CheckedListBox_DataTable.SelectedIndexChanged += new System.EventHandler(this.CheckList_DataTable_SelectedIndexChanged);
             // 
             // TextBox_Generated
             // 
@@ -84,7 +85,7 @@
             this.TextBox_Generated.Name = "TextBox_Generated";
             this.TextBox_Generated.ReadOnly = true;
             this.TextBox_Generated.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBox_Generated.Size = new System.Drawing.Size(482, 823);
+            this.TextBox_Generated.Size = new System.Drawing.Size(482, 825);
             this.TextBox_Generated.TabIndex = 1;
             this.TextBox_Generated.Text = "using System;\r\n\r\nnamespace Model\r\n{\r\n\r\n}";
             // 
@@ -112,7 +113,7 @@
             this.Panel_Settings.Dock = System.Windows.Forms.DockStyle.Left;
             this.Panel_Settings.Location = new System.Drawing.Point(0, 0);
             this.Panel_Settings.Name = "Panel_Settings";
-            this.Panel_Settings.Size = new System.Drawing.Size(371, 823);
+            this.Panel_Settings.Size = new System.Drawing.Size(371, 825);
             this.Panel_Settings.TabIndex = 0;
             // 
             // Button_RefreshDatabaseList
@@ -138,7 +139,7 @@
             // Button_StartGenerate
             // 
             this.Button_StartGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Button_StartGenerate.Location = new System.Drawing.Point(200, 742);
+            this.Button_StartGenerate.Location = new System.Drawing.Point(200, 744);
             this.Button_StartGenerate.Name = "Button_StartGenerate";
             this.Button_StartGenerate.Size = new System.Drawing.Size(136, 51);
             this.Button_StartGenerate.TabIndex = 18;
@@ -169,7 +170,7 @@
             // Button_EditLocation
             // 
             this.Button_EditLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Button_EditLocation.Location = new System.Drawing.Point(42, 742);
+            this.Button_EditLocation.Location = new System.Drawing.Point(42, 744);
             this.Button_EditLocation.Name = "Button_EditLocation";
             this.Button_EditLocation.Size = new System.Drawing.Size(136, 51);
             this.Button_EditLocation.TabIndex = 17;
@@ -191,7 +192,7 @@
             // 
             this.TextBox_SaveLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBox_SaveLocation.BackColor = System.Drawing.SystemColors.Window;
-            this.TextBox_SaveLocation.Location = new System.Drawing.Point(42, 694);
+            this.TextBox_SaveLocation.Location = new System.Drawing.Point(42, 696);
             this.TextBox_SaveLocation.Name = "TextBox_SaveLocation";
             this.TextBox_SaveLocation.ReadOnly = true;
             this.TextBox_SaveLocation.Size = new System.Drawing.Size(294, 27);
@@ -319,19 +320,19 @@
             // SplitContainer_Main
             // 
             this.SplitContainer_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer_Main.Location = new System.Drawing.Point(0, 30);
+            this.SplitContainer_Main.Location = new System.Drawing.Point(0, 28);
             this.SplitContainer_Main.Name = "SplitContainer_Main";
             // 
             // SplitContainer_Main.Panel1
             // 
-            this.SplitContainer_Main.Panel1.Controls.Add(this.CheckList_DataTable);
+            this.SplitContainer_Main.Panel1.Controls.Add(this.CheckedListBox_DataTable);
             this.SplitContainer_Main.Panel1MinSize = 250;
             // 
             // SplitContainer_Main.Panel2
             // 
             this.SplitContainer_Main.Panel2.Controls.Add(this.TextBox_Generated);
             this.SplitContainer_Main.Panel2.Controls.Add(this.Panel_Settings);
-            this.SplitContainer_Main.Size = new System.Drawing.Size(1182, 823);
+            this.SplitContainer_Main.Size = new System.Drawing.Size(1182, 825);
             this.SplitContainer_Main.SplitterDistance = 324;
             this.SplitContainer_Main.SplitterWidth = 5;
             this.SplitContainer_Main.TabIndex = 1;
@@ -344,7 +345,7 @@
             this.ToolStripMenuItem_Exit});
             this.MenuStrip_Main.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip_Main.Name = "MenuStrip_Main";
-            this.MenuStrip_Main.Size = new System.Drawing.Size(1182, 30);
+            this.MenuStrip_Main.Size = new System.Drawing.Size(1182, 28);
             this.MenuStrip_Main.TabIndex = 0;
             this.MenuStrip_Main.Text = "menuStrip1";
             // 
@@ -353,20 +354,20 @@
             this.ToolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_NewConnection});
             this.ToolStripMenuItem_File.Name = "ToolStripMenuItem_File";
-            this.ToolStripMenuItem_File.Size = new System.Drawing.Size(53, 26);
+            this.ToolStripMenuItem_File.Size = new System.Drawing.Size(53, 24);
             this.ToolStripMenuItem_File.Text = "文件";
             // 
             // ToolStripMenuItem_NewConnection
             // 
             this.ToolStripMenuItem_NewConnection.Name = "ToolStripMenuItem_NewConnection";
-            this.ToolStripMenuItem_NewConnection.Size = new System.Drawing.Size(224, 26);
+            this.ToolStripMenuItem_NewConnection.Size = new System.Drawing.Size(152, 26);
             this.ToolStripMenuItem_NewConnection.Text = "新建连接";
             this.ToolStripMenuItem_NewConnection.Click += new System.EventHandler(this.ToolStripMenuItem_NewConnection_Click);
             // 
             // ToolStripMenuItem_Exit
             // 
             this.ToolStripMenuItem_Exit.Name = "ToolStripMenuItem_Exit";
-            this.ToolStripMenuItem_Exit.Size = new System.Drawing.Size(53, 26);
+            this.ToolStripMenuItem_Exit.Size = new System.Drawing.Size(53, 24);
             this.ToolStripMenuItem_Exit.Text = "退出";
             // 
             // MainForm
@@ -377,6 +378,7 @@
             this.Controls.Add(this.SplitContainer_Main);
             this.Controls.Add(this.MenuStrip_Main);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip_Main;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -399,7 +401,7 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox CheckList_DataTable;
+        private System.Windows.Forms.CheckedListBox CheckedListBox_DataTable;
         private System.Windows.Forms.Panel Panel_Settings;
         private System.Windows.Forms.TextBox TextBox_Generated;
         private System.Windows.Forms.ComboBox ComboBox_AccessModifier;

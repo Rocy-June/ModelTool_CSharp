@@ -23,10 +23,12 @@ namespace ModelTool.Forms
 
             if (totalCount > 0)
             {
+                ProgressBar_Main.Style = ProgressBarStyle.Continuous;
                 ProgressBar_Main.Maximum = totalCount;
             }
             else 
             {
+                ProgressBar_Main.Style = ProgressBarStyle.Marquee;
                 Label_Text.Text = "请稍候...";
             }
         }
@@ -35,7 +37,7 @@ namespace ModelTool.Forms
         {
             Invoke(new Action(() =>
             {
-                ProgressBar_Main.Style = ProgressBarStyle.Blocks;
+                ProgressBar_Main.Style = ProgressBarStyle.Continuous;
                 ProgressBar_Main.Value = nowCount;
 
                 Label_Text.Text = showText;

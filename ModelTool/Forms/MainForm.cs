@@ -1,6 +1,6 @@
 ﻿using ModelTool.Core.Generator.Model;
-using ModelTool.Helper;
-using ModelTool.Model;
+using ModelTool.Core.Helper;
+using ModelTool.Core.Model;
 using ModelTool.Core.Generator.Sql;
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Settings = ModelTool.Properties.Settings;
+using ModelTool.Forms.Helper;
 
 namespace ModelTool.Forms
 {
@@ -43,133 +44,179 @@ namespace ModelTool.Forms
 
         private void OpenConnectForm()
         {
-            var cf = new ConnectForm(this);
-            cf.ShowDialog();
+            using (var cf = new ConnectForm())
+            {
+                cf.ShowDialog();
+                if (cf.DialogResult == DialogResult.OK)
+                {
+                    SqlGeneratorSetting = cf.ConnectionResult;
+
+                    TestDatabaseAndConnect();
+                }
+                else 
+                {
+                    CheckedListBox_DataTable.Items.Clear();
+                    ComboBox_Database.Items.Clear();
+                }
+            }
         }
 
         public bool TestDatabaseAndConnect()
         {
-            if (!GetDatabases())
-            {
-                return false;
-            }
-
-            if (!GetTables())
-            {
-                return true;
-            }
-
-            RefreshModelText();
-
-            return true;
-        }
-
-        public bool TestTableAndConnect()
-        {
-            if (!GetTables())
-            {
-                return true;
-            }
-
-            RefreshModelText();
-
-            return true;
-        }
-
-        private bool GetDatabases()
-        {
             if (SqlGeneratorSetting == null)
             {
-                MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请先连接数据库");
                 return false;
             }
 
-            try
+            using (var uniGen = new UniversalGenerator(SqlGeneratorSetting))
             {
-                using (var generator = new UniversalGenerator(SqlGeneratorSetting))
+                if (!uniGen.TryGetConnection(out var message))
                 {
-                    var list = generator.Generator.GetDatabases();
-
-                    ComboBox_Database.Items.Clear();
-                    ComboBox_Database.Items.AddRange(list.ToArray());
-                    ComboBox_Database.Text = list.Count > 0 ? list[list.Count - 1] : string.Empty;
+                    Alert.Error(message);
+                    return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
-            }
 
-            return true;
-        }
-
-        private bool GetTables()
-        {
-            if (SqlGeneratorSetting == null)
-            {
-                MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            try
-            {
-                using (var uni = new UniversalGenerator(SqlGeneratorSetting))
+                if (!GetDatabases(uniGen))
                 {
-                    var list = uni.GetTables(ComboBox_Database.Text);
-
-                    CheckList_DataTable.Items.Clear();
-                    CheckList_DataTable.Items.AddRange(list.ToArray());
-                    CheckList_DataTable.SelectedIndex = 0; 
+                    return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
+
+                if (!GetTables(uniGen))
+                {
+                    return true;
+                }
+
+                RefreshModelText(uniGen);
             }
 
             return true;
         }
 
-        private void RefreshModelText()
+        public void TestTableAndConnect()
         {
             if (SqlGeneratorSetting == null)
             {
-                MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请先连接数据库");
                 return;
             }
 
+            using (var uniGen = new UniversalGenerator(SqlGeneratorSetting))
+            {
+                if (!uniGen.TryGetConnection(out string message))
+                {
+                    Alert.Error(message);
+                    return;
+                }
+
+                if (!GetTables(uniGen))
+                {
+                    return;
+                }
+
+                RefreshModelText(uniGen);
+            }
+
+            return;
+        }
+
+        private bool GetDatabases(UniversalGenerator uniGen)
+        {
             try
             {
-                using (var uni = new UniversalGenerator(SqlGeneratorSetting))
-                {
-                    var list = uni.GetColumns(ComboBox_Database.Text, CheckList_DataTable.Text);
+                var list = uniGen.GetDatabases();
 
-                    TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
-                    {
-                        Using = TextBox_Using.Text,
-                        Namespace = TextBox_NameSpace.Text,
-                        TabSpace = NumBox_TabSpace.Value.ToInt(),
-                        AccessModifier = ComboBox_AccessModifier.Text,
-                        ModelName = CheckList_DataTable.Text,
-                        UseSummary = CheckBox_UseSummary.Checked,
-                        Columns = list
-                    }); 
-                }
+                ComboBox_Database.Items.Clear();
+                ComboBox_Database.Items.AddRange(list.ToArray());
+                ComboBox_Database.Text = list.Count > 0 ? list[list.Count - 1] : string.Empty;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+#if DEBUG
+                Console.WriteLine($@"{ex.Message}
+{ex.StackTrace}");
+#endif
+
+                Alert.Error(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool GetTables(UniversalGenerator uniGen)
+        {
+            try
+            {
+                var list = uniGen.GetTables(ComboBox_Database.Text);
+
+                CheckedListBox_DataTable.Items.Clear();
+                CheckedListBox_DataTable.Items.AddRange(list.ToArray());
+                CheckedListBox_DataTable.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine($@"{ex.Message}
+{ex.StackTrace}");
+#endif
+
+                Alert.Error(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void RefreshModelText(UniversalGenerator uniGen)
+        {
+            try
+            {
+                var list = uniGen.GetColumns(ComboBox_Database.Text, CheckedListBox_DataTable.Text);
+
+                TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
+                {
+                    Using = TextBox_Using.Text,
+                    Namespace = TextBox_NameSpace.Text,
+                    TabSpace = NumBox_TabSpace.Value.ToInt(),
+                    AccessModifier = ComboBox_AccessModifier.Text,
+                    ModelName = CheckedListBox_DataTable.Text,
+                    UseSummary = CheckBox_UseSummary.Checked,
+                    Columns = list
+                });
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine($@"{ex.Message}
+{ex.StackTrace}");
+#endif
+
+                Alert.Error(ex.Message);
                 return;
             }
         }
 
         private void GenerateSettingChanged()
         {
-            if (CheckList_DataTable.SelectedIndex >= 0)
+            if (CheckedListBox_DataTable.SelectedIndex >= 0)
             {
-                RefreshModelText();
+                if (SqlGeneratorSetting == null)
+                {
+                    Alert.Error("请先连接数据库");
+                    return;
+                }
+
+                using (var uniGen = new UniversalGenerator(SqlGeneratorSetting))
+                {
+                    if (!uniGen.TryGetConnection(out var message))
+                    {
+                        Alert.Error(message);
+                        return;
+                    }
+
+                    RefreshModelText(uniGen);
+                }
             }
         }
 
@@ -197,22 +244,22 @@ namespace ModelTool.Forms
         {
             if (SqlGeneratorSetting == null)
             {
-                MessageBox.Show("请先连接数据库", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请先连接数据库");
                 return;
             }
             if (string.IsNullOrWhiteSpace(ComboBox_Database.Text))
             {
-                MessageBox.Show("请先选择数据库并勾选需要生成的表单", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请先选择数据库并勾选需要生成的表单");
                 return;
             }
-            if (CheckList_DataTable.CheckedItems.Count <= 0)
+            if (CheckedListBox_DataTable.CheckedItems.Count <= 0)
             {
-                MessageBox.Show("请先勾选需要生成的表单", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请先勾选需要生成的表单");
                 return;
             }
             if (string.IsNullOrWhiteSpace(TextBox_SaveLocation.Text) && !ChangeSavePath())
             {
-                MessageBox.Show("请选择生成位置", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请选择生成位置");
                 return;
             }
             if (!Directory.Exists(TextBox_SaveLocation.Text))
@@ -220,54 +267,62 @@ namespace ModelTool.Forms
                 Directory.CreateDirectory(TextBox_SaveLocation.Text);
             }
 
-            var loadingForm = new WaitForm("正在生成", CheckList_DataTable.CheckedItems.Count);
-            var database = ComboBox_Database.Text;
-            var modelSetting = new ModelSetting()
+            using (var loadingForm = new WaitForm("正在生成", CheckedListBox_DataTable.CheckedItems.Count))
             {
-                Using = TextBox_Using.Text,
-                Namespace = TextBox_NameSpace.Text,
-                TabSpace = NumBox_TabSpace.Value.ToInt(),
-                AccessModifier = ComboBox_AccessModifier.Text,
-                UseSummary = CheckBox_UseSummary.Checked
-            };
-            var hasGenerateError = false;
-
-            var thread = new Thread(() =>
-            {
-                using (var uni = new UniversalGenerator(SqlGeneratorSetting))
+                var database = ComboBox_Database.Text;
+                var modelSetting = new ModelSetting()
                 {
-                    for (var i = 0; i < CheckList_DataTable.CheckedItems.Count; ++i)
+                    Using = TextBox_Using.Text,
+                    Namespace = TextBox_NameSpace.Text,
+                    TabSpace = NumBox_TabSpace.Value.ToInt(),
+                    AccessModifier = ComboBox_AccessModifier.Text,
+                    UseSummary = CheckBox_UseSummary.Checked
+                };
+                var hasGenerateError = false;
+
+                var thread = new Thread(() =>
+                {
+                    using (var uniGen = new UniversalGenerator(SqlGeneratorSetting))
                     {
-                        try
+                        if (!uniGen.TryGetConnection(out var message))
                         {
-                            var modelName = CheckList_DataTable.CheckedItems[i].ToString();
-
-                            loadingForm.RefreshState(i + 1, $"正在生成: {modelName}.cs");
-
-                            modelSetting.ModelName = modelName;
-                            modelSetting.Columns = uni.GetColumns(database, modelName);
-
-                            var generated_text = ModelGenerator.Generate(modelSetting);
-
-                            using (var sw = new StreamWriter($"{TextBox_SaveLocation.Text}\\{modelName}.cs"))
-                            {
-                                sw.Write(generated_text);
-                            }
+                            Alert.Error(message);
+                            loadingForm.WorkComplete();
+                            return;
                         }
-                        catch (Exception ex)
+
+                        for (var i = 0; i < CheckedListBox_DataTable.CheckedItems.Count; ++i)
                         {
-                            hasGenerateError = true;
-
-                            var logFilePath = $"{TextBox_SaveLocation.Text}\\error.log";
-
-                            if (!File.Exists(logFilePath))
+                            try
                             {
-                                var fs = File.Create(logFilePath);
-                                fs.Dispose();
+                                var modelName = CheckedListBox_DataTable.CheckedItems[i].ToString();
+
+                                loadingForm.RefreshState(i + 1, $"正在生成: {modelName}.cs");
+
+                                modelSetting.ModelName = modelName;
+                                modelSetting.Columns = uniGen.GetColumns(database, modelName);
+
+                                var generated_text = ModelGenerator.Generate(modelSetting);
+
+                                using (var sw = new StreamWriter($"{TextBox_SaveLocation.Text}\\{modelName}.cs"))
+                                {
+                                    sw.Write(generated_text);
+                                }
                             }
-                            using (var sw = new StreamWriter(logFilePath, true))
+                            catch (Exception ex)
                             {
-                                sw.WriteLine($@"=== Exception log {DateTime.Now:yyyy-MM-dd hh:mm:ss} BEGINS ===
+                                hasGenerateError = true;
+
+                                var logFilePath = $"{TextBox_SaveLocation.Text}\\error.log";
+
+                                if (!File.Exists(logFilePath))
+                                {
+                                    var fs = File.Create(logFilePath);
+                                    fs.Dispose();
+                                }
+                                using (var sw = new StreamWriter(logFilePath, true))
+                                {
+                                    sw.WriteLine($@"=== Exception log {DateTime.Now:yyyy-MM-dd hh:mm:ss} BEGINS ===
 
 Exception message:
 {ex.Message}
@@ -276,24 +331,28 @@ Exception stack trace:
 {ex.StackTrace}
 
 === Exception log ENDS ===");
+                                }
                             }
                         }
-                    } 
+                    }
+
+                    loadingForm.WorkComplete();
+                })
+                {
+                    IsBackground = true
+                };
+
+                loadingForm.StartWork(thread);
+
+                if (hasGenerateError)
+                {
+                    Alert.Warning("生成已完成，但出现错误，错误报告已生成在与实体类相同的目录下");
                 }
-
-                loadingForm.WorkComplete();
-            })
-            {
-                IsBackground = true
-            };
-
-            loadingForm.StartWork(thread);
-
-            if (hasGenerateError)
-            {
-                MessageBox.Show(@"生成已完成，但出现错误，错误报告已生成在与实体类相同的目录下", "出错", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                else
+                {
+                    Alert.Info("生成已完成");
+                }
             }
-            MessageBox.Show(@"生成已完成", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void SaveData()
@@ -338,30 +397,45 @@ Exception stack trace:
 
         private void CheckList_DataTable_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshModelText();
+            if (SqlGeneratorSetting == null)
+            {
+                Alert.Error("请先连接数据库");
+                return;
+            }
+
+            using (var uniGen = new UniversalGenerator(SqlGeneratorSetting))
+            {
+                if (!uniGen.TryGetConnection(out var message))
+                {
+                    Alert.Error(message);
+                    return;
+                }
+
+                RefreshModelText(uniGen);
+            }
         }
 
         private void Button_SelectAllTables_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < CheckList_DataTable.Items.Count; ++i)
+            for (var i = 0; i < CheckedListBox_DataTable.Items.Count; ++i)
             {
-                CheckList_DataTable.SetItemChecked(i, true);
+                CheckedListBox_DataTable.SetItemChecked(i, true);
             }
         }
 
         private void Button_ReverseTableSelect_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < CheckList_DataTable.Items.Count; ++i)
+            for (var i = 0; i < CheckedListBox_DataTable.Items.Count; ++i)
             {
-                CheckList_DataTable.SetItemChecked(i, !CheckList_DataTable.GetItemChecked(i));
+                CheckedListBox_DataTable.SetItemChecked(i, !CheckedListBox_DataTable.GetItemChecked(i));
             }
         }
 
         private void Button_ClearTableSelect_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < CheckList_DataTable.Items.Count; ++i)
+            for (var i = 0; i < CheckedListBox_DataTable.Items.Count; ++i)
             {
-                CheckList_DataTable.SetItemChecked(i, false);
+                CheckedListBox_DataTable.SetItemChecked(i, false);
             }
         }
 

@@ -32,3 +32,4 @@ D:\Work Projects\ModelTool\ModelTool\bin\Debug\System.Memory.xml
 D:\Work Projects\ModelTool\ModelTool\bin\Debug\System.Numerics.Vectors.xml
 D:\Work Projects\ModelTool\ModelTool\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.csproj.CopyComplete
+D:\Work Projects\ModelTool\ModelTool\obj\Debug\ModelTool.csprojAssemblyReference.cache

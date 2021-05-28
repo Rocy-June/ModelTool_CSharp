@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelTool.Helper
+namespace ModelTool.Core.Helper
 {
     static class Extend
     {

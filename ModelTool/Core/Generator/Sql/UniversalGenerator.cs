@@ -1,6 +1,6 @@
 ﻿using ModelTool.Core.Generator.Sql.Base;
 using ModelTool.Core.Generator.Sql.Interface;
-using ModelTool.Model;
+using ModelTool.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -14,7 +14,7 @@ namespace ModelTool.Core.Generator.Sql
     {
         public SqlGeneratorSetting Setting { get; }
 
-        public ISqlGenerator Generator { get; set; }
+        private ISqlGenerator Generator { get; set; }
 
         public UniversalGenerator(SqlGeneratorSetting setting)
         {
@@ -35,9 +35,9 @@ namespace ModelTool.Core.Generator.Sql
             }
         }
 
-        public DbConnection GetConnection()
+        public bool TryGetConnection(out string message)
         {
-            return Generator.GetConnection();
+            return Generator.TryGetConnection(out message);
         }
 
         public List<string> GetDatabases()

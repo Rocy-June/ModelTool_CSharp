@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ModelTool.Model
+namespace ModelTool.Core.Model
 {
     public class ColumnInfo
     {

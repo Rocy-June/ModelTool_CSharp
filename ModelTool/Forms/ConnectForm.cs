@@ -1,4 +1,4 @@
-﻿using ModelTool.Model;
+﻿using ModelTool.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +16,13 @@ namespace ModelTool.Forms
 {
     public partial class ConnectForm : Form
     {
-        MainForm Parent_MainForm { get; }
-        public ConnectForm(MainForm mf)
+        public SqlGeneratorSetting ConnectionResult { get; private set; }
+
+        public ConnectForm()
         {
             InitializeComponent();
 
-            Parent_MainForm = mf;
+            DialogResult = DialogResult.Cancel;
 
             Init();
         }
@@ -33,9 +34,9 @@ namespace ModelTool.Forms
             TextBox_Account.Text = Settings.Default.Account;
         }
 
-        public new void Show()
+        public new DialogResult Show()
         {
-            ShowDialog();
+            return ShowDialog();
         }
 
         private void ComboBox_SqlType_SelectedIndexChanged(object sender, EventArgs e)
@@ -67,11 +68,13 @@ namespace ModelTool.Forms
             if (!IPAddress.TryParse(TextBox_IP.Text, out var ipAddress))
             {
                 MessageBox.Show("请正确输入IP地址", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.Cancel;
                 return;
             }
             if (string.IsNullOrWhiteSpace(TextBox_Account.Text))
             {
                 MessageBox.Show("请输入连接用户名", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.Cancel;
                 return;
             }
 
@@ -81,18 +84,15 @@ namespace ModelTool.Forms
 
             Settings.Default.Save();
 
-            Parent_MainForm.SqlGeneratorSetting = new SqlGeneratorSetting
+            ConnectionResult = new SqlGeneratorSetting
             {
                 SqlType = (SqlType)ComboBox_SqlType.SelectedIndex,
                 ServerAddress = ipAddress,
                 UserAccount = TextBox_Account.Text,
                 UserPassword = TextBox_Password.Text
             };
-
-            if (Parent_MainForm.TestDatabaseAndConnect())
-            {
-                Close();
-            }
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

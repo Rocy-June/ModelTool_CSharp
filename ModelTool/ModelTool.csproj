@@ -36,7 +36,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <ApplicationIcon>Logo\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
@@ -105,8 +105,9 @@
     <Compile Include="Forms\ConnectForm.Designer.cs">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\ColumnInfo.cs" />
-    <Compile Include="Helper\Extend.cs" />
+    <Compile Include="Core\Model\ColumnInfo.cs" />
+    <Compile Include="Core\Helper\Extend.cs" />
+    <Compile Include="Forms\Helper\Alert.cs" />
     <Compile Include="Forms\WaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,9 +121,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Generator\Model\ModelGenerator.cs" />
-    <Compile Include="Model\ModelSetting.cs" />
-    <Compile Include="Model\SqlGeneratorSetting.cs" />
-    <Compile Include="Model\SqlType.cs" />
+    <Compile Include="Core\Model\ModelSetting.cs" />
+    <Compile Include="Core\Model\SqlGeneratorSetting.cs" />
+    <Compile Include="Core\Model\SqlType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\ConnectForm.resx">
@@ -145,7 +146,14 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.manifest" />
-    <None Include="Logo.psd" />
+    <None Include="Logo\Psd\Logo.psd" />
+    <None Include="Logo\Psd\Logo_x16.psd" />
+    <None Include="Logo\Psd\Logo_x20.psd" />
+    <None Include="Logo\Psd\Logo_x24.psd" />
+    <None Include="Logo\Psd\Logo_x32.psd" />
+    <None Include="Logo\Psd\Logo_x40.psd" />
+    <None Include="Logo\Psd\Logo_x48.psd" />
+    <None Include="Logo\Psd\Logo_x64.psd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -161,7 +169,24 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="logo.ico" />
+    <None Include="Logo\CSharpFile\CSharpFile.png" />
+    <None Include="Logo\CSharpFile\CSharpFile_x32.png" />
+    <None Include="Logo\CSharpFile\CSharpFile_x48.png" />
+    <None Include="Logo\CSharpFile\CSharpFile_x64.png" />
+    <None Include="Logo\database.png" />
+    <None Include="Logo\database_x24.png" />
+    <None Include="Logo\database_x32.png" />
+    <Content Include="Logo\logo.ico" />
+    <None Include="Logo\Merge\Logo.png" />
+    <None Include="Logo\Merge\Logo_x16.png" />
+    <None Include="Logo\Merge\Logo_x16_old.png" />
+    <None Include="Logo\Merge\Logo_x20.png" />
+    <None Include="Logo\Merge\Logo_x24.png" />
+    <None Include="Logo\Merge\Logo_x32.png" />
+    <None Include="Logo\Merge\Logo_x40.png" />
+    <None Include="Logo\Merge\Logo_x48.png" />
+    <None Include="Logo\Merge\Logo_x64.png" />
+    <None Include="Logo\redo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

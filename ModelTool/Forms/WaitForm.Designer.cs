@@ -34,7 +34,7 @@
             // 
             // ProgressBar_Main
             // 
-            this.ProgressBar_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ProgressBar_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ProgressBar_Main.Location = new System.Drawing.Point(12, 12);
             this.ProgressBar_Main.MarqueeAnimationSpeed = 16;
@@ -61,6 +61,8 @@
             this.ControlBox = false;
             this.Controls.Add(this.ProgressBar_Main);
             this.Controls.Add(this.Label_Text);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Icon = Properties.Resources.Logo;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "WaitForm";
             this.ShowInTaskbar = false;

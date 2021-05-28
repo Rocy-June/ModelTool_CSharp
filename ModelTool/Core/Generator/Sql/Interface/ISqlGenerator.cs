@@ -1,4 +1,4 @@
-﻿using ModelTool.Model;
+﻿using ModelTool.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -12,7 +12,7 @@ namespace ModelTool.Core.Generator.Sql.Interface
     {
         SqlGeneratorSetting Setting { get; }
 
-        DbConnection GetConnection();
+        bool TryGetConnection(out string message);
 
         List<string> GetDatabases();
 

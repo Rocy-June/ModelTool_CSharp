@@ -1,7 +1,8 @@
 ﻿using ModelTool.Core.Generator.Sql.Interface;
-using ModelTool.Model;
+using ModelTool.Core.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,87 +15,82 @@ namespace ModelTool.Core.Generator.Sql.Base
     {
         public SqlGeneratorSetting Setting { get; }
 
-        private SqlConnection Connection { get; }
+        private SqlConnection Connection { get; set; }
 
-        public MSSQLServerGenerator(SqlGeneratorSetting setting) 
+        public MSSQLServerGenerator(SqlGeneratorSetting setting)
         {
             Setting = setting;
-            Connection = GetConnection() as SqlConnection;
         }
 
-        public DbConnection GetConnection()
+        public bool TryGetConnection(out string message)
         {
-            return new SqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
+            try
+            {
+                Connection = new SqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
+                Connection.Open();
+
+                message = string.Empty;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+#if DEBUG
+                Console.WriteLine($@"{ex.Message}
+{ex.StackTrace}");
+#endif
+                Connection = null;
+                return false;
+            }
+
         }
 
         public List<string> GetDatabases()
         {
-            try
-            {
-                Connection.Open();
-
-                var getDatabaseStr = "SELECT name FROM Master..SysDatabases ORDER BY name";
+            var getDatabaseStr = "SELECT name FROM Master..SysDatabases ORDER BY name";
 
 #if DEBUG
-                Console.WriteLine(getDatabaseStr);
+            Console.WriteLine(getDatabaseStr);
 #endif
 
-                using (var cmd = new SqlCommand(getDatabaseStr, Connection as SqlConnection))
-                {
-                    var reader = cmd.ExecuteReader();
-
-                    var databaseList = new List<string>();
-                    while (reader.Read())
-                    {
-                        databaseList.Add(reader.GetString(0));
-                    }
-
-                    return databaseList;
-                }
-            }
-            finally
+            using (var cmd = new SqlCommand(getDatabaseStr, Connection as SqlConnection))
             {
-                Connection.Close();
+                var reader = cmd.ExecuteReader();
+
+                var databaseList = new List<string>();
+                while (reader.Read())
+                {
+                    databaseList.Add(reader.GetString(0));
+                }
+
+                return databaseList;
             }
         }
 
         public List<string> GetTables(string database)
         {
-            try
-            {
-                Connection.Open();
-
-                var getTableStr = $"SELECT name FROM {database}..SysObjects WHERE XType='U' ORDER BY name";
+            var getTableStr = $"SELECT name FROM {database}..SysObjects WHERE XType='U' ORDER BY name";
 
 #if DEBUG
-                Console.WriteLine(getTableStr);
+            Console.WriteLine(getTableStr);
 #endif
 
-                using (var cmd = new SqlCommand(getTableStr, Connection))
-                {
-                    var reader = cmd.ExecuteReader();
-
-                    var tableList = new List<string>();
-                    while (reader.Read())
-                    {
-                        tableList.Add(reader.GetString(0));
-                    }
-
-                    return tableList;
-                }
-            }
-            finally
+            using (var cmd = new SqlCommand(getTableStr, Connection))
             {
-                Connection.Close();
+                var reader = cmd.ExecuteReader();
+
+                var tableList = new List<string>();
+                while (reader.Read())
+                {
+                    tableList.Add(reader.GetString(0));
+                }
+
+                return tableList;
             }
         }
         public List<ColumnInfo> GetColumns(string database, string table)
         {
-            try
-            {
-                Connection.Open();
-
-                var getColumnStr = $@"SELECT sc.name, st.name, sc.isnullable, ISNULL(sep.value, '')
+            var getColumnStr = $@"SELECT sc.name, st.name, sc.isnullable, ISNULL(sep.value, '')
 FROM {database}.sys.syscolumns sc
 LEFT JOIN {database}.sys.systypes st ON sc.xusertype = st.xusertype
 INNER JOIN {database}.sys.sysobjects so ON sc.id = so.id AND so.xtype = 'U' AND so.name <> 'dtproperties'
@@ -102,38 +98,32 @@ LEFT JOIN {database}.sys.extended_properties sep ON sc.id = sep.major_id AND sc.
 WHERE so.name = '{table}'";
 
 #if DEBUG
-                Console.WriteLine(getColumnStr);
+            Console.WriteLine(getColumnStr);
 #endif
 
-                using (var cmd = new SqlCommand(getColumnStr, Connection))
+            using (var cmd = new SqlCommand(getColumnStr, Connection))
+            {
+                var reader = cmd.ExecuteReader();
+
+                var columnList = new List<ColumnInfo>();
+                while (reader.Read())
                 {
-                    var reader = cmd.ExecuteReader();
-
-                    var columnList = new List<ColumnInfo>();
-                    while (reader.Read())
+                    columnList.Add(new ColumnInfo()
                     {
-                        columnList.Add(new ColumnInfo()
-                        {
-                            Summary = reader.GetString(3),
-                            Type = reader.GetString(1),
-                            IsNullable = reader.GetInt32(2) == 1,
-                            Name = reader.GetString(0)
-                        });
-                    }
-
-                    return columnList;
+                        Summary = reader.GetString(3),
+                        Type = reader.GetString(1),
+                        IsNullable = reader.GetInt32(2) == 1,
+                        Name = reader.GetString(0)
+                    });
                 }
 
-            }
-            finally
-            {
-                Connection.Close();
+                return columnList;
             }
         }
 
         public void Dispose()
         {
-            Connection.Dispose();
+            Connection?.Dispose();
         }
 
         /* 
