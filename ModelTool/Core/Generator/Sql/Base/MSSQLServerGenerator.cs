@@ -53,10 +53,9 @@ namespace ModelTool.Core.Generator.Sql.Base
             Console.WriteLine(getDatabaseStr);
 #endif
 
-            using (var cmd = new SqlCommand(getDatabaseStr, Connection as SqlConnection))
+            using (var cmd = new SqlCommand(getDatabaseStr, Connection))
+            using (var reader = cmd.ExecuteReader())
             {
-                var reader = cmd.ExecuteReader();
-
                 var databaseList = new List<string>();
                 while (reader.Read())
                 {
@@ -76,9 +75,8 @@ namespace ModelTool.Core.Generator.Sql.Base
 #endif
 
             using (var cmd = new SqlCommand(getTableStr, Connection))
+            using (var reader = cmd.ExecuteReader())
             {
-                var reader = cmd.ExecuteReader();
-
                 var tableList = new List<string>();
                 while (reader.Read())
                 {
@@ -102,9 +100,8 @@ WHERE so.name = '{table}'";
 #endif
 
             using (var cmd = new SqlCommand(getColumnStr, Connection))
+            using (var reader = cmd.ExecuteReader())
             {
-                var reader = cmd.ExecuteReader();
-
                 var columnList = new List<ColumnInfo>();
                 while (reader.Read())
                 {

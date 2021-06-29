@@ -2,6 +2,7 @@
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
-/ModelTool_CSharp/obj/Debug
-/ModelTool_CSharp/bin/Debug
-/.vs/ModelTool_CSharp/v16
+
+/ModelTool/bin/
+/ModelTool/obj/
+/.vs/

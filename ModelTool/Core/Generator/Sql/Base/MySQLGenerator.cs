@@ -54,9 +54,8 @@ namespace ModelTool.Core.Generator.Sql.Base
 #endif
 
             using (var cmd = new MySqlCommand(getDatabaseStr, Connection))
+            using (var reader = cmd.ExecuteReader())
             {
-                var reader = cmd.ExecuteReader();
-
                 var databaseList = new List<string>();
                 while (reader.Read())
                 {
@@ -76,15 +75,13 @@ namespace ModelTool.Core.Generator.Sql.Base
 #endif
 
             using (var cmd = new MySqlCommand(getTableStr, Connection))
+            using (var reader = cmd.ExecuteReader())
             {
-                var reader = cmd.ExecuteReader();
-
                 var tableList = new List<string>();
                 while (reader.Read())
                 {
                     tableList.Add(reader.GetString(0));
                 }
-
                 return tableList;
             }
         }
@@ -100,9 +97,8 @@ AND TABLE_NAME = '{table}'";
 #endif
 
             using (var cmd = new MySqlCommand(getColumnStr, Connection))
+            using (var reader = cmd.ExecuteReader())
             {
-                var reader = cmd.ExecuteReader();
-
                 var columnList = new List<ColumnInfo>();
                 while (reader.Read())
                 {
