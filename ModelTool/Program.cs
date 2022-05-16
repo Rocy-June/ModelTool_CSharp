@@ -17,6 +17,18 @@ namespace ModelTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //var a = new WaitForm("");
+            //a.StartWork(new System.Threading.Thread(() =>
+            //{
+            //    while (true)
+            //    {
+            //        System.Threading.Thread.Sleep(1000);
+            //    }
+            //}));
+            //a.Show();
+
+            //Console.ReadLine();
             Application.Run(new MainForm());
         }
     }

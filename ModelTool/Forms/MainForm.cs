@@ -18,6 +18,10 @@ using System.Windows.Forms;
 
 using Settings = ModelTool.Properties.Settings;
 using ModelTool.Forms.Helper;
+using System.Text.RegularExpressions;
+using ModelTool.Properties;
+using System.Drawing.Text;
+using System.Runtime.InteropServices;
 
 namespace ModelTool.Forms
 {
@@ -26,20 +30,40 @@ namespace ModelTool.Forms
 
         public SqlGeneratorSetting SqlGeneratorSetting { get; set; }
 
+        private PrivateFontCollection FontCollection { get; } = new PrivateFontCollection();
+
         public MainForm()
         {
+            LoadFont();
             InitializeComponent();
             Init();
         }
 
+        private void LoadFont()
+        {
+            var fontData = Marshal.AllocCoTaskMem(Resources.CascadiaCode.Length);
+            Marshal.Copy(Resources.CascadiaCode, 0, fontData, Resources.CascadiaCode.Length);
+            FontCollection.AddMemoryFont(fontData, Resources.CascadiaCode.Length);
+        }
+
         private void Init()
         {
+            var cascadiaFont = new Font(FontCollection.Families[0], 10);
+            TextBox_Using.Font = cascadiaFont;
+            TextBox_NameSpace.Font = cascadiaFont;
+            ComboBox_AccessModifier.Font = cascadiaFont;
+            TextBox_Inherit.Font = cascadiaFont;
+            TextBox_Generated.Font = cascadiaFont;
+
+            ToolStripMenuItem_EnableSQLSugarDefaultSupport.Checked = Settings.Default.EnableSQLSugarDefaultSupport;
             TextBox_Using.Text = Settings.Default.Using;
             TextBox_NameSpace.Text = Settings.Default.Namespace;
-            ComboBox_AccessModifier.Text = Settings.Default.Namespace;
+            ComboBox_AccessModifier.Text = Settings.Default.AccessModifier;
             NumBox_TabSpace.Value = Settings.Default.TabSpace;
             CheckBox_UseSummary.Checked = Settings.Default.UseSummary;
             TextBox_SaveLocation.Text = Settings.Default.SaveLocation;
+
+            RefreshTestModel();
         }
 
         private void OpenConnectForm()
@@ -53,7 +77,7 @@ namespace ModelTool.Forms
 
                     TestDatabaseAndConnect();
                 }
-                else 
+                else
                 {
                     CheckedListBox_DataTable.Items.Clear();
                     ComboBox_Database.Items.Clear();
@@ -152,7 +176,10 @@ namespace ModelTool.Forms
 
                 CheckedListBox_DataTable.Items.Clear();
                 CheckedListBox_DataTable.Items.AddRange(list.ToArray());
-                CheckedListBox_DataTable.SelectedIndex = 0;
+                if (CheckedListBox_DataTable.Items.Count > 0)
+                {
+                    CheckedListBox_DataTable.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -176,13 +203,16 @@ namespace ModelTool.Forms
 
                 TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
                 {
-                    Using = TextBox_Using.Text,
-                    Namespace = TextBox_NameSpace.Text,
+                    Using = TextBox_Using.Text.Trim(),
+                    Namespace = TextBox_NameSpace.Text.Trim(),
                     TabSpace = NumBox_TabSpace.Value.ToInt(),
-                    AccessModifier = ComboBox_AccessModifier.Text,
-                    ModelName = CheckedListBox_DataTable.Text,
+                    AccessModifier = ComboBox_AccessModifier.Text.Trim(),
+                    Inherit = TextBox_Inherit.Text.Trim(),
+                    ModelName = CheckedListBox_DataTable.Text.Trim(),
+                    ModelSummary = $"Model: {CheckedListBox_DataTable.Text.Trim()}",
                     UseSummary = CheckBox_UseSummary.Checked,
-                    Columns = list
+                    EnableSQLSugarSupport = ToolStripMenuItem_EnableSQLSugarDefaultSupport.Checked,
+                    Columns = list,
                 });
             }
             catch (Exception ex)
@@ -218,6 +248,53 @@ namespace ModelTool.Forms
                     RefreshModelText(uniGen);
                 }
             }
+            else
+            {
+                RefreshTestModel();
+            }
+        }
+
+        private void RefreshTestModel()
+        {
+            TextBox_Generated.Text = ModelGenerator.Generate(new ModelSetting()
+            {
+                Using = TextBox_Using.Text.Trim(),
+                Namespace = TextBox_NameSpace.Text.Trim(),
+                TabSpace = NumBox_TabSpace.Value.ToInt(),
+                AccessModifier = ComboBox_AccessModifier.Text.Trim(),
+                Inherit = TextBox_Inherit.Text.Trim(),
+                ModelName = "TestEntity",
+                ModelSummary = "Model: TestEntity",
+                UseSummary = CheckBox_UseSummary.Checked,
+                EnableSQLSugarSupport = ToolStripMenuItem_EnableSQLSugarDefaultSupport.Checked,
+                Columns = new List<ColumnInfo>
+                    {
+                        new ColumnInfo
+                        {
+                            IsPrimaryKey = true,
+                            Name = "TestID",
+                            Type = "int",
+                            IsNullable = false,
+                            Summary = "测试主键"
+                        },
+                        new ColumnInfo
+                        {
+                            IsPrimaryKey = false,
+                            Name = "TestNumber",
+                            Type = "float",
+                            IsNullable = true,
+                            Summary = "测试值"
+                        },
+                        new ColumnInfo
+                        {
+                            IsPrimaryKey = false,
+                            Name = "TestString",
+                            Type = "varchar",
+                            IsNullable = true,
+                            Summary = "测试字符串"
+                        },
+                    }
+            });
         }
 
         private bool ChangeSavePath()
@@ -272,11 +349,13 @@ namespace ModelTool.Forms
                 var database = ComboBox_Database.Text;
                 var modelSetting = new ModelSetting()
                 {
-                    Using = TextBox_Using.Text,
-                    Namespace = TextBox_NameSpace.Text,
+                    Using = TextBox_Using.Text.Trim(),
+                    Namespace = TextBox_NameSpace.Text.Trim(),
                     TabSpace = NumBox_TabSpace.Value.ToInt(),
-                    AccessModifier = ComboBox_AccessModifier.Text,
-                    UseSummary = CheckBox_UseSummary.Checked
+                    AccessModifier = ComboBox_AccessModifier.Text.Trim(),
+                    Inherit = TextBox_Inherit.Text.Trim(),
+                    UseSummary = CheckBox_UseSummary.Checked,
+                    EnableSQLSugarSupport = ToolStripMenuItem_EnableSQLSugarDefaultSupport.Checked
                 };
                 var hasGenerateError = false;
 
@@ -291,15 +370,16 @@ namespace ModelTool.Forms
                             return;
                         }
 
-                        for (var i = 0; i < CheckedListBox_DataTable.CheckedItems.Count; ++i)
+                        for (int i = 0, showcount = 1; i < CheckedListBox_DataTable.CheckedItems.Count; ++i, ++showcount)
                         {
                             try
                             {
                                 var modelName = CheckedListBox_DataTable.CheckedItems[i].ToString();
 
-                                loadingForm.RefreshState(i + 1, $"正在生成: {modelName}.cs");
+                                loadingForm.RefreshState(showcount, $"正在生成:\r\n{modelName}.cs");
 
                                 modelSetting.ModelName = modelName;
+                                modelSetting.ModelSummary = $"Model: {modelName}";
                                 modelSetting.Columns = uniGen.GetColumns(database, modelName);
 
                                 var generated_text = ModelGenerator.Generate(modelSetting);
@@ -357,6 +437,7 @@ Exception stack trace:
 
         private void SaveData()
         {
+            Settings.Default.EnableSQLSugarDefaultSupport = ToolStripMenuItem_EnableSQLSugarDefaultSupport.Checked;
             Settings.Default.Using = TextBox_Using.Text;
             Settings.Default.Namespace = TextBox_NameSpace.Text;
             Settings.Default.AccessModifier = ComboBox_AccessModifier.Text;
@@ -378,6 +459,19 @@ Exception stack trace:
         private void ToolStripMenuItem_NewConnection_Click(object sender, EventArgs e)
         {
             OpenConnectForm();
+        }
+
+        private void ToolStripMenuItem_EnableSQLSugarDefaultSupport_Click(object sender, EventArgs e)
+        {
+            var regex = new Regex("\r\nusing.*?sqlsugar.*?;", RegexOptions.IgnoreCase);
+            TextBox_Using.Text = regex.Replace(TextBox_Using.Text.Trim(), string.Empty);
+
+            if (ToolStripMenuItem_EnableSQLSugarDefaultSupport.Checked)
+            {
+                TextBox_Using.Text += "\r\nusing SqlSugar;";
+            }
+
+            GenerateSettingChanged();
         }
 
         private void ComboBox_Database_SelectedIndexChanged(object sender, EventArgs e)
@@ -450,6 +544,11 @@ Exception stack trace:
         }
 
         private void ComboBox_AccessModifier_Validating(object sender, CancelEventArgs e)
+        {
+            GenerateSettingChanged();
+        }
+
+        private void TextBox_Inherit_Validating(object sender, CancelEventArgs e)
         {
             GenerateSettingChanged();
         }

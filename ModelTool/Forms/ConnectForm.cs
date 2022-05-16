@@ -1,4 +1,6 @@
-﻿using ModelTool.Core.Model;
+﻿using ModelTool.Core.Generator.Sql.Base;
+using ModelTool.Core.Model;
+using ModelTool.Forms.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +18,7 @@ namespace ModelTool.Forms
 {
     public partial class ConnectForm : Form
     {
+        private const string LOCALHOST_IP = "127.0.0.1";
         public SqlGeneratorSetting ConnectionResult { get; private set; }
 
         public ConnectForm()
@@ -30,6 +33,8 @@ namespace ModelTool.Forms
         public void Init()
         {
             ComboBox_SqlType.SelectedIndex = Settings.Default.DataBaseTypeSelectedIndex;
+            TextBox_InstanceName.Text = Settings.Default.SqlInstanceName;
+            CheckBox_Localhost.Checked = Settings.Default.IsLocalhostIP;
             TextBox_IP.Text = Settings.Default.IP;
             TextBox_Account.Text = Settings.Default.Account;
         }
@@ -41,11 +46,24 @@ namespace ModelTool.Forms
 
         private void ComboBox_SqlType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ComboBox_SqlType.SelectedIndex == 0)
+            {
+                TextBox_InstanceName.Text = MSSQLServerGenerator.DEFAULT_INSTANCE_NAME;
+            }
+
+            TextBox_InstanceName.Text = string.Empty;
+
             if (ComboBox_SqlType.SelectedIndex == 2)
             {
-                MessageBox.Show("Oracle数据库暂未完成具体实现, 请等待后续更新...", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Alert.Info("Oracle数据库暂未完成具体实现, 请等待后续更新...");
                 ComboBox_SqlType.SelectedIndex = 0;
             }
+        }
+
+        private void CheckBox_Localhost_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBox_IP.Text = CheckBox_Localhost.Checked ? "localhost" : string.Empty;
+            TextBox_IP.Enabled = !CheckBox_Localhost.Checked;
         }
 
         private void TextBox_IP_TextChanged(object sender, EventArgs e)
@@ -65,20 +83,27 @@ namespace ModelTool.Forms
 
         private void Button_Connect_Click(object sender, EventArgs e)
         {
-            if (!IPAddress.TryParse(TextBox_IP.Text, out var ipAddress))
+            IPAddress ipAddress;
+            if (CheckBox_Localhost.Checked)
             {
-                MessageBox.Show("请正确输入IP地址", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ipAddress = IPAddress.Parse(LOCALHOST_IP);
+            }
+            else if (!IPAddress.TryParse(TextBox_IP.Text, out ipAddress))
+            {
+                Alert.Error("请正确输入IP地址");
                 DialogResult = DialogResult.Cancel;
                 return;
             }
             if (string.IsNullOrWhiteSpace(TextBox_Account.Text))
             {
-                MessageBox.Show("请输入连接用户名", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Alert.Error("请输入连接用户名");
                 DialogResult = DialogResult.Cancel;
                 return;
             }
 
             Settings.Default.DataBaseTypeSelectedIndex = ComboBox_SqlType.SelectedIndex;
+            Settings.Default.SqlInstanceName = TextBox_InstanceName.Text;
+            Settings.Default.IsLocalhostIP = CheckBox_Localhost.Checked;
             Settings.Default.IP = TextBox_IP.Text;
             Settings.Default.Account = TextBox_Account.Text;
 
@@ -88,6 +113,7 @@ namespace ModelTool.Forms
             {
                 SqlType = (SqlType)ComboBox_SqlType.SelectedIndex,
                 ServerAddress = ipAddress,
+                SqlInstanceName = TextBox_InstanceName.Text,
                 UserAccount = TextBox_Account.Text,
                 UserPassword = TextBox_Password.Text
             };

@@ -34,12 +34,13 @@
             // 
             // ProgressBar_Main
             // 
-            this.ProgressBar_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.ProgressBar_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProgressBar_Main.Location = new System.Drawing.Point(12, 12);
+            this.ProgressBar_Main.Location = new System.Drawing.Point(10, 10);
+            this.ProgressBar_Main.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ProgressBar_Main.MarqueeAnimationSpeed = 16;
             this.ProgressBar_Main.Name = "ProgressBar_Main";
-            this.ProgressBar_Main.Size = new System.Drawing.Size(355, 23);
+            this.ProgressBar_Main.Size = new System.Drawing.Size(315, 18);
             this.ProgressBar_Main.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.ProgressBar_Main.TabIndex = 1;
             // 
@@ -47,23 +48,25 @@
             // 
             this.Label_Text.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Label_Text.Location = new System.Drawing.Point(0, 0);
+            this.Label_Text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_Text.Name = "Label_Text";
-            this.Label_Text.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
-            this.Label_Text.Size = new System.Drawing.Size(379, 109);
+            this.Label_Text.Padding = new System.Windows.Forms.Padding(0, 0, 0, 24);
+            this.Label_Text.Size = new System.Drawing.Size(334, 121);
             this.Label_Text.TabIndex = 0;
             this.Label_Text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // WaitForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(379, 109);
+            this.ClientSize = new System.Drawing.Size(334, 121);
             this.ControlBox = false;
             this.Controls.Add(this.ProgressBar_Main);
             this.Controls.Add(this.Label_Text);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Icon = Properties.Resources.Logo;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = global::ModelTool.Properties.Resources.Logo;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "WaitForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

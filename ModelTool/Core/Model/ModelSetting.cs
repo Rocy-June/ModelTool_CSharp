@@ -5,7 +5,7 @@ namespace ModelTool.Core.Model
 {
     class ModelSetting
     {
-        public ModelSetting() 
+        public ModelSetting()
         {
             Columns = new List<ColumnInfo>();
         }
@@ -18,9 +18,15 @@ namespace ModelTool.Core.Model
 
         public string AccessModifier { get; set; }
 
+        public string Inherit { get; set; }
+
         public string ModelName { get; set; }
 
+        public string ModelSummary { get; set; }
+
         public bool UseSummary { get; set; }
+
+        public bool EnableSQLSugarSupport { get; set; }
 
         public List<ColumnInfo> Columns { get; set; }
     }

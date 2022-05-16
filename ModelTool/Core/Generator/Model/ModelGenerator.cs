@@ -19,36 +19,69 @@ namespace ModelTool.Core.Generator.Model
             var tab = tab_builder.ToString();
             var tab2x = tab + tab;
 
-            return $@"{setting.Using.Trim()}
+            var modelSummary = setting.UseSummary
+                ? $"\r\n{GetSummaryString(setting.ModelSummary, tab)}"
+                : string.Empty;
+
+            var inherit = string.IsNullOrWhiteSpace(setting.Inherit)
+                ? string.Empty
+                : $" : {setting.Inherit}";
+
+            return $@"{setting.Using}
 
 namespace {setting.Namespace}
-{{
-{tab}{setting.AccessModifier} class {setting.ModelName}
+{{{modelSummary}
+{tab}{setting.AccessModifier} class {setting.ModelName}{inherit}
 {tab}{{
-{GetColumnString(setting.Columns, setting.UseSummary, tab2x)}
+{GetColumnString(setting, tab2x)}
 {tab}}}
 }}";
 
         }
 
-        private static string GetColumnString(List<ColumnInfo> columns, bool useSummary, string tab)
+        private const string SUGAR_COLUMN_SPLITOR = ", ";
+        private static string GetColumnString(ModelSetting setting, string tab)
         {
             return string.Join(@"
 
-", columns.Select(e =>
+", setting.Columns.Select(e =>
             {
-                var tmp = new StringBuilder(2);
-                if (useSummary)
+                var sb = new StringBuilder();
+                if (setting.UseSummary)
                 {
-                    tmp.Append($@"{tab}/// <summary>
-{tab}/// {e.Summary}
-{tab}/// </summary>
-");
+                    sb.AppendLine(GetSummaryString(e.Summary, tab));
                 }
-                tmp.Append($"{tab}public {GetType(e.Type, e.IsNullable)} {e.Name} {{ get; set; }}");
+                if (setting.EnableSQLSugarSupport)
+                {
+                    //[SugarColumn(IsPrimaryKey = true, IsIdentity = true, ColumnName = "")]
+                    sb.Append($"{tab}[SugarColumn(ColumnName = \"{e.Name}\"");
+                    sb.Append(SUGAR_COLUMN_SPLITOR);
+                    if (e.IsPrimaryKey)
+                    {
+                        sb.Append($"IsPrimaryKey = true");
+                        sb.Append(SUGAR_COLUMN_SPLITOR);
+                    }
+                    if (e.IsIdentity)
+                    {
+                        sb.Append($"IsIdentity = true");
+                        sb.Append(SUGAR_COLUMN_SPLITOR);
+                    }
 
-                return tmp.ToString();
+                    sb.Remove(sb.Length - 2, 2);
+                    sb.AppendLine(")]");
+                }
+
+                sb.Append($"{tab}public {GetType(e.Type, e.IsNullable)} {e.Name} {{ get; set; }}");
+
+                return sb.ToString();
             }));
+        }
+
+        private static string GetSummaryString(string summary, string tab)
+        {
+            return $@"{tab}/// <summary>
+{tab}/// {summary}
+{tab}/// </summary>";
         }
 
         private static string GetType(string type, bool nullable)
@@ -96,6 +129,7 @@ namespace {setting.Namespace}
                 case "mediumtext":
                 case "longblob":
                 case "longtext":
+                case "sysname":
                     return "string";
                 case "binary":
                 case "varbinary":
@@ -111,7 +145,6 @@ namespace {setting.Namespace}
                 case "geometry":
                 case "geography":
                 case "xml":
-                case "sysname":
                 default:
                     return "object";
             }

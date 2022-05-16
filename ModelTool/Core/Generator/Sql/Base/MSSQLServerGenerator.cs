@@ -17,6 +17,8 @@ namespace ModelTool.Core.Generator.Sql.Base
 
         private SqlConnection Connection { get; set; }
 
+        public const string DEFAULT_INSTANCE_NAME = "MSSQLSERVER";
+
         public MSSQLServerGenerator(SqlGeneratorSetting setting)
         {
             Setting = setting;
@@ -26,7 +28,11 @@ namespace ModelTool.Core.Generator.Sql.Base
         {
             try
             {
-                Connection = new SqlConnection($"Server={Setting.ServerAddress};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
+                var instanceName = Setting.SqlInstanceName == DEFAULT_INSTANCE_NAME
+                    ? string.Empty
+                    : $@"\{Setting.SqlInstanceName}";
+
+                Connection = new SqlConnection($"Server={Setting.ServerAddress}{instanceName};Uid={Setting.UserAccount};Pwd={Setting.UserPassword}");
                 Connection.Open();
 
                 message = string.Empty;
@@ -88,12 +94,18 @@ namespace ModelTool.Core.Generator.Sql.Base
         }
         public List<ColumnInfo> GetColumns(string database, string table)
         {
-            var getColumnStr = $@"SELECT sc.name, st.name, sc.isnullable, ISNULL(sep.value, '')
-FROM {database}.sys.syscolumns sc
-LEFT JOIN {database}.sys.systypes st ON sc.xusertype = st.xusertype
-INNER JOIN {database}.sys.sysobjects so ON sc.id = so.id AND so.xtype = 'U' AND so.name <> 'dtproperties'
-LEFT JOIN {database}.sys.extended_properties sep ON sc.id = sep.major_id AND sc.colid = sep.minor_id
-WHERE so.name = '{table}'";
+            var getColumnStr = $@"
+SELECT 
+	sc.name, 
+	sts.name, 
+	sc.is_nullable, 
+	(SELECT COUNT(*) FROM {database}.sys.identity_columns sic
+	 WHERE sic.object_id = sc.object_id AND sc.column_id = sic.column_id) is_identity,
+	ISNULL((SELECT value FROM {database}.sys.extended_properties sep
+	 WHERE sep.major_id = sc.object_id and sep.minor_id = sc.column_id), '') description
+FROM {database}.sys.columns sc, {database}.sys.tables st, {database}.sys.types sts 
+WHERE sc.object_id = st.object_id AND sc.system_type_id = sts.system_type_id AND st.name = '{table}' 
+ORDER BY sc.column_id";
 
 #if DEBUG
             Console.WriteLine(getColumnStr);
@@ -107,10 +119,12 @@ WHERE so.name = '{table}'";
                 {
                     columnList.Add(new ColumnInfo()
                     {
-                        Summary = reader.GetString(3),
+                        Name = reader.GetString(0),
                         Type = reader.GetString(1),
-                        IsNullable = reader.GetInt32(2) == 1,
-                        Name = reader.GetString(0)
+                        IsNullable = reader.GetBoolean(2),
+                        IsPrimaryKey = reader.GetInt32(3) == 1,
+                        IsIdentity = reader.GetInt32(3) == 1,
+                        Summary = reader.GetString(4),
                     });
                 }
 
