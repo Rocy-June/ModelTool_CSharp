@@ -50,7 +50,7 @@ namespace ModelTool.Forms
             this.Label_IP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_IP.Name = "Label_IP";
             this.Label_IP.Size = new System.Drawing.Size(31, 17);
-            this.Label_IP.TabIndex = 2;
+            this.Label_IP.TabIndex = 3;
             this.Label_IP.Text = "IP：";
             // 
             // TextBox_IP
@@ -60,7 +60,7 @@ namespace ModelTool.Forms
             this.TextBox_IP.MaxLength = 15;
             this.TextBox_IP.Name = "TextBox_IP";
             this.TextBox_IP.Size = new System.Drawing.Size(198, 23);
-            this.TextBox_IP.TabIndex = 3;
+            this.TextBox_IP.TabIndex = 4;
             this.TextBox_IP.TextChanged += new System.EventHandler(this.TextBox_IP_TextChanged);
             // 
             // TextBox_Account
@@ -69,7 +69,7 @@ namespace ModelTool.Forms
             this.TextBox_Account.Margin = new System.Windows.Forms.Padding(2);
             this.TextBox_Account.Name = "TextBox_Account";
             this.TextBox_Account.Size = new System.Drawing.Size(198, 23);
-            this.TextBox_Account.TabIndex = 5;
+            this.TextBox_Account.TabIndex = 8;
             this.TextBox_Account.TextChanged += new System.EventHandler(this.TextBox_Account_TextChanged);
             // 
             // Label_Account
@@ -79,7 +79,7 @@ namespace ModelTool.Forms
             this.Label_Account.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_Account.Name = "Label_Account";
             this.Label_Account.Size = new System.Drawing.Size(56, 17);
-            this.Label_Account.TabIndex = 4;
+            this.Label_Account.TabIndex = 7;
             this.Label_Account.Text = "用户名：";
             // 
             // TextBox_Password
@@ -89,7 +89,7 @@ namespace ModelTool.Forms
             this.TextBox_Password.Name = "TextBox_Password";
             this.TextBox_Password.PasswordChar = '*';
             this.TextBox_Password.Size = new System.Drawing.Size(198, 23);
-            this.TextBox_Password.TabIndex = 7;
+            this.TextBox_Password.TabIndex = 10;
             this.TextBox_Password.TextChanged += new System.EventHandler(this.TextBox_Password_TextChanged);
             // 
             // Label_Password
@@ -99,7 +99,7 @@ namespace ModelTool.Forms
             this.Label_Password.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_Password.Name = "Label_Password";
             this.Label_Password.Size = new System.Drawing.Size(44, 17);
-            this.Label_Password.TabIndex = 6;
+            this.Label_Password.TabIndex = 9;
             this.Label_Password.Text = "密码：";
             // 
             // Button_Connect
@@ -108,7 +108,7 @@ namespace ModelTool.Forms
             this.Button_Connect.Margin = new System.Windows.Forms.Padding(2);
             this.Button_Connect.Name = "Button_Connect";
             this.Button_Connect.Size = new System.Drawing.Size(68, 26);
-            this.Button_Connect.TabIndex = 8;
+            this.Button_Connect.TabIndex = 11;
             this.Button_Connect.Text = "建立连接";
             this.Button_Connect.UseVisualStyleBackColor = true;
             this.Button_Connect.Click += new System.EventHandler(this.Button_Connect_Click);
@@ -144,7 +144,7 @@ namespace ModelTool.Forms
             this.CheckBox_Localhost.Location = new System.Drawing.Point(21, 48);
             this.CheckBox_Localhost.Name = "CheckBox_Localhost";
             this.CheckBox_Localhost.Size = new System.Drawing.Size(51, 21);
-            this.CheckBox_Localhost.TabIndex = 9;
+            this.CheckBox_Localhost.TabIndex = 2;
             this.CheckBox_Localhost.Text = "本地";
             this.CheckBox_Localhost.UseVisualStyleBackColor = true;
             this.CheckBox_Localhost.CheckedChanged += new System.EventHandler(this.CheckBox_Localhost_CheckedChanged);
@@ -155,7 +155,7 @@ namespace ModelTool.Forms
             this.TextBox_InstanceName.Margin = new System.Windows.Forms.Padding(2);
             this.TextBox_InstanceName.Name = "TextBox_InstanceName";
             this.TextBox_InstanceName.Size = new System.Drawing.Size(198, 23);
-            this.TextBox_InstanceName.TabIndex = 10;
+            this.TextBox_InstanceName.TabIndex = 6;
             this.TextBox_InstanceName.Text = "MSSQLSERVER";
             // 
             // Label_InstanceName
@@ -165,7 +165,7 @@ namespace ModelTool.Forms
             this.Label_InstanceName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_InstanceName.Name = "Label_InstanceName";
             this.Label_InstanceName.Size = new System.Drawing.Size(68, 17);
-            this.Label_InstanceName.TabIndex = 11;
+            this.Label_InstanceName.TabIndex = 5;
             this.Label_InstanceName.Text = "实例名称：";
             // 
             // ConnectForm

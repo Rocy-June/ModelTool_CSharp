@@ -132,7 +132,7 @@
             this.TextBox_Inherit.Margin = new System.Windows.Forms.Padding(2);
             this.TextBox_Inherit.Name = "TextBox_Inherit";
             this.TextBox_Inherit.Size = new System.Drawing.Size(186, 23);
-            this.TextBox_Inherit.TabIndex = 21;
+            this.TextBox_Inherit.TabIndex = 14;
             this.TextBox_Inherit.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Inherit_Validating);
             // 
             // Label_Inherit
@@ -142,7 +142,7 @@
             this.Label_Inherit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_Inherit.Name = "Label_Inherit";
             this.Label_Inherit.Size = new System.Drawing.Size(44, 17);
-            this.Label_Inherit.TabIndex = 20;
+            this.Label_Inherit.TabIndex = 13;
             this.Label_Inherit.Text = "继承自";
             // 
             // Label_ExportPath
@@ -153,7 +153,7 @@
             this.Label_ExportPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_ExportPath.Name = "Label_ExportPath";
             this.Label_ExportPath.Size = new System.Drawing.Size(68, 17);
-            this.Label_ExportPath.TabIndex = 19;
+            this.Label_ExportPath.TabIndex = 18;
             this.Label_ExportPath.Text = "输出位置：";
             // 
             // Button_RefreshDatabaseList
@@ -185,7 +185,7 @@
             this.Button_StartGenerate.Margin = new System.Windows.Forms.Padding(2);
             this.Button_StartGenerate.Name = "Button_StartGenerate";
             this.Button_StartGenerate.Size = new System.Drawing.Size(109, 41);
-            this.Button_StartGenerate.TabIndex = 18;
+            this.Button_StartGenerate.TabIndex = 21;
             this.Button_StartGenerate.Text = "开始生成";
             this.Button_StartGenerate.UseVisualStyleBackColor = true;
             this.Button_StartGenerate.Click += new System.EventHandler(this.Button_StartGenerate_Click);
@@ -196,7 +196,7 @@
             this.Button_ClearTableSelect.Margin = new System.Windows.Forms.Padding(2);
             this.Button_ClearTableSelect.Name = "Button_ClearTableSelect";
             this.Button_ClearTableSelect.Size = new System.Drawing.Size(68, 26);
-            this.Button_ClearTableSelect.TabIndex = 4;
+            this.Button_ClearTableSelect.TabIndex = 6;
             this.Button_ClearTableSelect.Text = "重新选择";
             this.Button_ClearTableSelect.UseVisualStyleBackColor = true;
             this.Button_ClearTableSelect.Click += new System.EventHandler(this.Button_ClearTableSelect_Click);
@@ -207,7 +207,7 @@
             this.Button_ReverseTableSelect.Margin = new System.Windows.Forms.Padding(2);
             this.Button_ReverseTableSelect.Name = "Button_ReverseTableSelect";
             this.Button_ReverseTableSelect.Size = new System.Drawing.Size(68, 26);
-            this.Button_ReverseTableSelect.TabIndex = 6;
+            this.Button_ReverseTableSelect.TabIndex = 5;
             this.Button_ReverseTableSelect.Text = "列表反选";
             this.Button_ReverseTableSelect.UseVisualStyleBackColor = true;
             this.Button_ReverseTableSelect.Click += new System.EventHandler(this.Button_ReverseTableSelect_Click);
@@ -219,7 +219,7 @@
             this.Button_EditLocation.Margin = new System.Windows.Forms.Padding(2);
             this.Button_EditLocation.Name = "Button_EditLocation";
             this.Button_EditLocation.Size = new System.Drawing.Size(109, 41);
-            this.Button_EditLocation.TabIndex = 17;
+            this.Button_EditLocation.TabIndex = 20;
             this.Button_EditLocation.Text = "修改位置";
             this.Button_EditLocation.UseVisualStyleBackColor = true;
             this.Button_EditLocation.Click += new System.EventHandler(this.Button_EditLocation_Click);
@@ -230,7 +230,7 @@
             this.Button_SelectAllTables.Margin = new System.Windows.Forms.Padding(2);
             this.Button_SelectAllTables.Name = "Button_SelectAllTables";
             this.Button_SelectAllTables.Size = new System.Drawing.Size(68, 26);
-            this.Button_SelectAllTables.TabIndex = 5;
+            this.Button_SelectAllTables.TabIndex = 4;
             this.Button_SelectAllTables.Text = "列表全选";
             this.Button_SelectAllTables.UseVisualStyleBackColor = true;
             this.Button_SelectAllTables.Click += new System.EventHandler(this.Button_SelectAllTables_Click);
@@ -244,7 +244,7 @@
             this.TextBox_SaveLocation.Name = "TextBox_SaveLocation";
             this.TextBox_SaveLocation.ReadOnly = true;
             this.TextBox_SaveLocation.Size = new System.Drawing.Size(236, 23);
-            this.TextBox_SaveLocation.TabIndex = 16;
+            this.TextBox_SaveLocation.TabIndex = 19;
             // 
             // CheckBox_UseSummary
             // 
@@ -255,7 +255,7 @@
             this.CheckBox_UseSummary.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBox_UseSummary.Name = "CheckBox_UseSummary";
             this.CheckBox_UseSummary.Size = new System.Drawing.Size(75, 21);
-            this.CheckBox_UseSummary.TabIndex = 15;
+            this.CheckBox_UseSummary.TabIndex = 17;
             this.CheckBox_UseSummary.Text = "字段注释";
             this.CheckBox_UseSummary.UseVisualStyleBackColor = true;
             this.CheckBox_UseSummary.CheckedChanged += new System.EventHandler(this.CheckBox_UseSummary_CheckedChanged);
@@ -316,7 +316,7 @@
             0});
             this.NumBox_TabSpace.Name = "NumBox_TabSpace";
             this.NumBox_TabSpace.Size = new System.Drawing.Size(76, 23);
-            this.NumBox_TabSpace.TabIndex = 14;
+            this.NumBox_TabSpace.TabIndex = 16;
             this.NumBox_TabSpace.Value = new decimal(new int[] {
             4,
             0,
@@ -331,7 +331,7 @@
             this.Label_TabSpace.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label_TabSpace.Name = "Label_TabSpace";
             this.Label_TabSpace.Size = new System.Drawing.Size(32, 17);
-            this.Label_TabSpace.TabIndex = 13;
+            this.Label_TabSpace.TabIndex = 15;
             this.Label_TabSpace.Text = "间隔";
             // 
             // TextBox_Using

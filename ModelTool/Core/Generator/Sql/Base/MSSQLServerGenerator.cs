@@ -74,7 +74,7 @@ namespace ModelTool.Core.Generator.Sql.Base
 
         public List<string> GetTables(string database)
         {
-            var getTableStr = $"SELECT name FROM {database}..SysObjects WHERE XType='U' ORDER BY name";
+            var getTableStr = $"SELECT name FROM [{database}]..SysObjects WHERE XType='U' ORDER BY name";
 
 #if DEBUG
             Console.WriteLine(getTableStr);
@@ -99,11 +99,11 @@ SELECT
 	sc.name, 
 	sts.name, 
 	sc.is_nullable, 
-	(SELECT COUNT(*) FROM {database}.sys.identity_columns sic
+	(SELECT COUNT(*) FROM [{database}].sys.identity_columns sic
 	 WHERE sic.object_id = sc.object_id AND sc.column_id = sic.column_id) is_identity,
-	ISNULL((SELECT value FROM {database}.sys.extended_properties sep
+	ISNULL((SELECT value FROM [{database}].sys.extended_properties sep
 	 WHERE sep.major_id = sc.object_id and sep.minor_id = sc.column_id), '') description
-FROM {database}.sys.columns sc, {database}.sys.tables st, {database}.sys.types sts 
+FROM [{database}].sys.columns sc, [{database}].sys.tables st, [{database}].sys.types sts 
 WHERE sc.object_id = st.object_id AND sc.system_type_id = sts.system_type_id AND st.name = '{table}' 
 ORDER BY sc.column_id";
 
