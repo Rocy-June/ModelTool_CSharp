@@ -96,15 +96,17 @@ namespace ModelTool.Core.Generator.Sql.Base
         {
             var getColumnStr = $@"
 SELECT 
-	sc.name, 
-	sts.name, 
+	sc.name,
+	sty.name type,
 	sc.is_nullable, 
 	(SELECT COUNT(*) FROM [{database}].sys.identity_columns sic
-	 WHERE sic.object_id = sc.object_id AND sc.column_id = sic.column_id) is_identity,
-	ISNULL((SELECT value FROM [{database}].sys.extended_properties sep
-	 WHERE sep.major_id = sc.object_id and sep.minor_id = sc.column_id), '') description
-FROM [{database}].sys.columns sc, [{database}].sys.tables st, [{database}].sys.types sts 
-WHERE sc.object_id = st.object_id AND sc.system_type_id = sts.system_type_id AND st.name = '{table}' 
+	WHERE sc.object_id = sic.object_id AND sc.column_id = sic.column_id) is_identity,
+	ISNULL(sep.value, '') description
+FROM [{database}].sys.columns sc
+LEFT JOIN [{database}].sys.tables sta ON sc.object_id = sta.object_id
+LEFT JOIN [{database}].sys.types sty ON sc.user_type_id = sty.user_type_id
+LEFT JOIN [{database}].sys.extended_properties sep ON sc.object_id = sep.major_id AND sc.column_id = sep.minor_id
+WHERE sta.name = '{table}'
 ORDER BY sc.column_id";
 
 #if DEBUG
