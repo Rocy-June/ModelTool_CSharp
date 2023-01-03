@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,21 +16,22 @@ namespace ModelTool
         [STAThread]
         static void Main()
         {
+            Application.ThreadException += Application_ThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            //var a = new WaitForm("");
-            //a.StartWork(new System.Threading.Thread(() =>
-            //{
-            //    while (true)
-            //    {
-            //        System.Threading.Thread.Sleep(1000);
-            //    }
-            //}));
-            //a.Show();
-
-            //Console.ReadLine();
             Application.Run(new MainForm());
+        }
+
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show($"出现未知异常\r\nMessage:{e.Exception.Message}\r\nStackTrace:{e.Exception.StackTrace}", "错误");
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show($"出现未知异常\r\nMessage:{((Exception)e.ExceptionObject).Message}\r\nStackTrace:{((Exception)e.ExceptionObject).StackTrace}", "错误");
         }
     }
 }
